@@ -21,20 +21,20 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class RemoveFromDepositCommandImplTest {
+class WithdrawFromDepositCommandImplTest {
 
-    private RemoveFromDepositCommand removeFromDepositCommand;
+    private WithdrawFromDepositCommand withdrawFromDepositCommand;
 
     @Mock
     private DepositRepository depositRepository;
 
     @BeforeEach
     void setUp() {
-        removeFromDepositCommand = new RemoveFromDepositCommandImpl(depositRepository);
+        withdrawFromDepositCommand = new WithdrawFromDepositCommandImpl(depositRepository);
     }
 
     @Test
-    void shouldRemove() throws NotEnoughDepositException {
+    void shouldWithdraw() throws NotEnoughDepositException {
         // given
         final int five = Coin.FIVE.getValue();
         final int ten = Coin.TEN.getValue();
@@ -46,7 +46,7 @@ class RemoveFromDepositCommandImplTest {
         when(depositRepository.findByBuyerId(buyerId)).thenReturn(Optional.of(storedDeposit));
 
         // when
-        removeFromDepositCommand.remove(five).from(deposit);
+        withdrawFromDepositCommand.withdraw(five).from(deposit);
 
         // then
         final ArgumentCaptor<DepositEntity> depositEntityCapture = ArgumentCaptor.forClass(DepositEntity.class);
@@ -57,7 +57,7 @@ class RemoveFromDepositCommandImplTest {
     }
 
     @Test
-    void shouldThrowNotEnoughDepositException_whenAmountToRemoveIsNotAvailable() {
+    void shouldThrowNotEnoughDepositException_whenAmountToWithdrawIsNotAvailable() {
         // given
         final int thirty = 30;
         final int twenty = 20;
@@ -71,7 +71,7 @@ class RemoveFromDepositCommandImplTest {
 
         // when
         // then
-        assertThrows(NotEnoughDepositException.class, () -> removeFromDepositCommand.remove(thirty).from(deposit));
+        assertThrows(NotEnoughDepositException.class, () -> withdrawFromDepositCommand.withdraw(thirty).from(deposit));
     }
 
 }

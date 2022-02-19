@@ -21,7 +21,7 @@ public class Deposit extends Model {
         this.amount += amount;
     }
 
-    public void remove(final int amount) throws NotEnoughDepositException {
+    public void withdraw(final int amount) throws NotEnoughDepositException {
         validate(amount);
         this.amount -= amount;
     }

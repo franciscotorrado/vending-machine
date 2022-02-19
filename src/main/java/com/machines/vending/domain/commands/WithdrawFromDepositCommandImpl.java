@@ -7,18 +7,18 @@ import com.machines.vending.infraestructure.persistence.deposits.DepositReposito
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public class RemoveFromDepositCommandImpl implements RemoveFromDepositCommand {
+public class WithdrawFromDepositCommandImpl implements WithdrawFromDepositCommand {
 
     private final DepositRepository depositRepository;
 
     @Override
-    public FromDepositCommand remove(final int amount) {
+    public FromDepositCommand withdraw(final int amount) {
         return depositToBeUpdated -> {
             final int buyerId = depositToBeUpdated.getBuyerId();
             final DepositEntity depositEntity = depositRepository.findByBuyerId(buyerId)
                     .orElse(DepositEntity.builder().buyerId(buyerId).build());
             final Deposit deposit = DepositMapper.fromEntity(depositEntity).toModel();
-            deposit.remove(amount);
+            deposit.withdraw(amount);
             depositRepository.save(DepositMapper.fromModel(deposit).toEntity());
         };
     }

@@ -1,7 +1,6 @@
 package com.machines.vending.domain.models.deposits;
 
 import com.machines.vending.application.exceptions.NotEnoughDepositException;
-import com.machines.vending.domain.models.Coin;
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;
@@ -41,12 +40,12 @@ class DepositTest {
     }
 
     @Test
-    void shouldRemoveAmount() throws NotEnoughDepositException {
+    void shouldWithdrawAmount() throws NotEnoughDepositException {
         //given
         final Deposit deposit = new Deposit(id, buyerId, ten);
 
         //when
-        deposit.remove(five);
+        deposit.withdraw(five);
 
         //then
         assertThat(deposit.getAmount()).isEqualTo(5);
@@ -71,6 +70,6 @@ class DepositTest {
 
         // when
         // then
-        assertThrows(NotEnoughDepositException.class, () -> deposit.remove(twenty));
+        assertThrows(NotEnoughDepositException.class, () -> deposit.withdraw(twenty));
     }
 }
