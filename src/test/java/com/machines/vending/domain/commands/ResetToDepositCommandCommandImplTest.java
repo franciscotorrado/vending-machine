@@ -21,7 +21,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class ResetDepositCommandCommandImplTest {
+class ResetToDepositCommandCommandImplTest {
     private final static int ZERO = 0;
 
     private ResetDepositCommand resetDepositCommand;

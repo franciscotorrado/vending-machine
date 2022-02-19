@@ -13,7 +13,7 @@ public class AddDepositCommandImpl implements AddDepositCommand {
     private final DepositRepository depositRepository;
 
     @Override
-    public DepositCommand add(final int coin) {
+    public ToDepositCommand add(final int coin) {
         return depositToBeUpdated -> {
             final Integer buyerId = depositToBeUpdated.getBuyerId();
             final DepositEntity depositEntity = depositRepository.findById(buyerId).orElse(new DepositEntity(buyerId, ZERO));
