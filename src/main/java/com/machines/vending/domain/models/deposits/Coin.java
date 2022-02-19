@@ -11,7 +11,10 @@ import java.util.Map;
 @Getter
 public enum Coin {
     FIVE(5),
-    TEN(10);
+    TEN(10),
+    TWENTY(20),
+    FIFTY(50),
+    HUNDRED(100);
 
     private static final Map<Integer, Coin> values = new HashMap<>();
 
