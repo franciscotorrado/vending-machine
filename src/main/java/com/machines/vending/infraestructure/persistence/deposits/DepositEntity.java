@@ -16,5 +16,5 @@ import javax.persistence.Id;
 public class DepositEntity {
     @Id
     private Integer buyerId;
-    private int value;
+    private int amount;
 }

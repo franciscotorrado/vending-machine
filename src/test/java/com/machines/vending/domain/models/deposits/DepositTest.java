@@ -18,7 +18,7 @@ class DepositTest {
 
         // then
         assertThat(deposit.getBuyerId()).isEqualTo(buyerId);
-        assertThat(deposit.getValue()).isZero();
+        assertThat(deposit.getAmount()).isZero();
     }
 
     @Test
@@ -33,7 +33,22 @@ class DepositTest {
         deposit.add(five);
 
         //then
-        assertThat(deposit.getValue()).isEqualTo(15);
+        assertThat(deposit.getAmount()).isEqualTo(15);
+    }
+
+    @Test
+    void shouldRemoveAmount() {
+        //given
+        final Integer buyerId = new Random().nextInt();
+        final int five = Coin.FIVE.getValue();
+        final int ten = Coin.TEN.getValue();
+        final Deposit deposit = new Deposit(buyerId, ten);
+
+        //when
+        deposit.remove(five);
+
+        //then
+        assertThat(deposit.getAmount()).isEqualTo(5);
     }
 
     @Test
@@ -47,6 +62,6 @@ class DepositTest {
         deposit.reset();
 
         //then
-        assertThat(deposit.getValue()).isEqualTo(0);
+        assertThat(deposit.getAmount()).isEqualTo(0);
     }
 }

@@ -6,10 +6,10 @@ import com.machines.vending.infraestructure.persistence.mappers.ModelMapper;
 
 public final class DepositMapper {
     public static EntityMapper fromEntity(final DepositEntity depositEntity) {
-        return () -> new Deposit(depositEntity.getBuyerId(), depositEntity.getValue());
+        return () -> new Deposit(depositEntity.getBuyerId(), depositEntity.getAmount());
     }
 
     public static ModelMapper fromModel(final Deposit deposit) {
-        return () -> new DepositEntity(deposit.getBuyerId(), deposit.getValue());
+        return () -> new DepositEntity(deposit.getBuyerId(), deposit.getAmount());
     }
 }

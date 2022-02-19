@@ -19,37 +19,37 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class AddToDepositCommandImplTest {
+class RemoveFromDepositCommandImplTest {
 
-    private AddDepositCommand addDepositCommand;
+    private RemoveFromDepositCommand removeFromDepositCommand;
 
     @Mock
     private DepositRepository depositRepository;
 
     @BeforeEach
     void setUp() {
-        addDepositCommand = new AddDepositCommandImpl(depositRepository);
+        removeFromDepositCommand = new RemoveFromDepositCommandImpl(depositRepository);
     }
 
     @Test
-    void shouldAdd() {
+    void shouldRemove() {
         // given
         final int five = Coin.FIVE.getValue();
         final int ten = Coin.TEN.getValue();
         final Integer buyerId = new Random().nextInt();
         final Deposit deposit = new Deposit(buyerId, five);
-        final DepositEntity storedDeposit = new DepositEntity(buyerId, five);
+        final DepositEntity storedDeposit = new DepositEntity(buyerId, ten);
         when(depositRepository.findById(buyerId)).thenReturn(Optional.of(storedDeposit));
 
         // when
-        addDepositCommand.add(five).to(deposit);
+        removeFromDepositCommand.remove(five).from(deposit);
 
         // then
         final ArgumentCaptor<DepositEntity> depositEntityCapture = ArgumentCaptor.forClass(DepositEntity.class);
         verify(depositRepository).save(depositEntityCapture.capture());
         final DepositEntity updatedDepositEntity = depositEntityCapture.getValue();
         assertThat(updatedDepositEntity.getBuyerId()).isEqualTo(buyerId);
-        assertThat(updatedDepositEntity.getAmount()).isEqualTo(ten);
+        assertThat(updatedDepositEntity.getAmount()).isEqualTo(five);
     }
 
 }

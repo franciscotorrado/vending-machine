@@ -7,18 +7,22 @@ import lombok.Getter;
 @Getter
 public class Deposit {
     private Integer buyerId;
-    private int value;
+    private int amount;
 
     Deposit(final Integer buyerId) {
         this.buyerId = buyerId;
         reset();
     }
 
-    public void add(int value) {
-        this.value += value;
+    public void add(int amount) {
+        this.amount += amount;
+    }
+
+    public void remove(final int amount) {
+        this.amount -= amount;
     }
 
     public void reset() {
-        this.value = 0;
+        this.amount = 0;
     }
 }

@@ -28,7 +28,7 @@ class DepositEntityTest {
 
     @Test
     void getValue() {
-        assertThat(depositEntity.getValue()).isEqualTo(ten);
+        assertThat(depositEntity.getAmount()).isEqualTo(ten);
     }
 
     @Test
@@ -46,9 +46,9 @@ class DepositEntityTest {
         // given
         final int twenty = 20;
         // when
-        depositEntity.setValue(twenty);
+        depositEntity.setAmount(twenty);
         // then
-        assertThat(depositEntity.getValue()).isEqualTo(twenty);
+        assertThat(depositEntity.getAmount()).isEqualTo(twenty);
     }
 
     @Test
@@ -57,8 +57,8 @@ class DepositEntityTest {
         // when
         final DepositEntity deposit = new DepositEntity();
         // then
-        assertThat(deposit.getBuyerId()).isZero();
-        assertThat(deposit.getValue()).isZero();
+        assertThat(deposit.getBuyerId()).isNull();
+        assertThat(deposit.getAmount()).isZero();
     }
 
 

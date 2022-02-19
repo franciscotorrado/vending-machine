@@ -52,7 +52,7 @@ class ResetToDepositCommandCommandImplTest {
         verify(depositRepository).save(depositEntityCapture.capture());
         final DepositEntity updatedDepositEntity = depositEntityCapture.getValue();
         assertThat(updatedDepositEntity.getBuyerId()).isEqualTo(buyerId);
-        assertThat(updatedDepositEntity.getValue()).isEqualTo(ZERO);
+        assertThat(updatedDepositEntity.getAmount()).isEqualTo(ZERO);
     }
 
     @Test
