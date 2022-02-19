@@ -1,9 +1,9 @@
 package com.machines.vending.domain.commands;
 
-import com.machines.vending.domain.models.deposits.Deposit;
-import com.machines.vending.infraestructure.persistence.deposits.DepositEntity;
-import com.machines.vending.infraestructure.persistence.deposits.DepositMapper;
-import com.machines.vending.infraestructure.persistence.deposits.DepositRepository;
+import com.machines.vending.domain.models.Deposit;
+import com.machines.vending.infraestructure.persistence.entities.DepositEntity;
+import com.machines.vending.infraestructure.persistence.entities.DepositMapper;
+import com.machines.vending.infraestructure.persistence.entities.DepositRepository;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor

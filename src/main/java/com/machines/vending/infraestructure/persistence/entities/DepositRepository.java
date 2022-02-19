@@ -1,4 +1,4 @@
-package com.machines.vending.infraestructure.persistence.deposits;
+package com.machines.vending.infraestructure.persistence.entities;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

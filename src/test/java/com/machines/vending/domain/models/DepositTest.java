@@ -1,6 +1,7 @@
-package com.machines.vending.domain.models.deposits;
+package com.machines.vending.domain.models;
 
 import com.machines.vending.domain.exceptions.NotEnoughDepositException;
+import com.machines.vending.domain.models.Deposit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

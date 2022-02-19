@@ -1,6 +1,6 @@
-package com.machines.vending.infraestructure.persistence.deposits;
+package com.machines.vending.infraestructure.persistence.entities;
 
-import com.machines.vending.domain.models.deposits.Deposit;
+import com.machines.vending.domain.models.Deposit;
 import com.machines.vending.infraestructure.persistence.mappers.EntityMapper;
 import com.machines.vending.infraestructure.persistence.mappers.ModelMapper;
 

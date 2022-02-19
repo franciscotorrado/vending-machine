@@ -1,6 +1,5 @@
-package com.machines.vending.infraestructure.persistence.deposits;
+package com.machines.vending.infraestructure.persistence.entities;
 
-import com.machines.vending.infraestructure.persistence.DBEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
