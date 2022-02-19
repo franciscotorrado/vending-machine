@@ -1,5 +1,6 @@
 package com.machines.vending.domain.commands;
 
+import com.machines.vending.application.exceptions.NotEnoughDepositException;
 import com.machines.vending.domain.models.Coin;
 import com.machines.vending.domain.models.deposits.Deposit;
 import com.machines.vending.infraestructure.persistence.deposits.DepositEntity;
@@ -15,6 +16,7 @@ import java.util.Optional;
 import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -32,7 +34,7 @@ class RemoveFromDepositCommandImplTest {
     }
 
     @Test
-    void shouldRemove() {
+    void shouldRemove() throws NotEnoughDepositException {
         // given
         final int five = Coin.FIVE.getValue();
         final int ten = Coin.TEN.getValue();
@@ -52,6 +54,24 @@ class RemoveFromDepositCommandImplTest {
         final DepositEntity updatedDepositEntity = depositEntityCapture.getValue();
         assertThat(updatedDepositEntity.getBuyerId()).isEqualTo(buyerId);
         assertThat(updatedDepositEntity.getAmount()).isEqualTo(five);
+    }
+
+    @Test
+    void shouldThrowNotEnoughDepositException_whenAmountToRemoveIsNotAvailable() {
+        // given
+        final int thirty = 30;
+        final int twenty = 20;
+        final int five = 5;
+        final int id = new Random().nextInt();
+        final int buyerId = new Random().nextInt();
+        final Deposit deposit = new Deposit(id, buyerId, five);
+        final DepositEntity storedDeposit = DepositEntity.builder().id(id).buyerId(buyerId).amount(twenty).build();
+
+        when(depositRepository.findByBuyerId(buyerId)).thenReturn(Optional.of(storedDeposit));
+
+        // when
+        // then
+        assertThrows(NotEnoughDepositException.class, () -> removeFromDepositCommand.remove(thirty).from(deposit));
     }
 
 }

@@ -1,20 +1,25 @@
 package com.machines.vending.domain.models.deposits;
 
+import com.machines.vending.application.exceptions.NotEnoughDepositException;
 import com.machines.vending.domain.models.Coin;
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class DepositTest {
+
+    private final int five = 5;
+    private final int ten = 10;
+    private final int twenty = 20;
+    private final int id = new Random().nextInt();
+    private final int buyerId = new Random().nextInt();
 
     @Test
     void shouldCreateEmptyDeposit() {
         // given
-        final int id = new Random().nextInt();
-        final int buyerId = new Random().nextInt();
-
         // when
         final Deposit deposit = new Deposit(buyerId);
 
@@ -26,10 +31,6 @@ class DepositTest {
     @Test
     void shouldAddCoin() {
         //given
-        final int id = new Random().nextInt();
-        final int buyerId = new Random().nextInt();
-        final int five = Coin.FIVE.getValue();
-        final int ten = Coin.TEN.getValue();
         final Deposit deposit = new Deposit(id, buyerId, ten);
 
         //when
@@ -40,12 +41,8 @@ class DepositTest {
     }
 
     @Test
-    void shouldRemoveAmount() {
+    void shouldRemoveAmount() throws NotEnoughDepositException {
         //given
-        final int id = new Random().nextInt();
-        final int buyerId = new Random().nextInt();
-        final int five = Coin.FIVE.getValue();
-        final int ten = Coin.TEN.getValue();
         final Deposit deposit = new Deposit(id, buyerId, ten);
 
         //when
@@ -58,9 +55,6 @@ class DepositTest {
     @Test
     void shouldReset() {
         //given
-        final int id = new Random().nextInt();
-        final int buyerId = new Random().nextInt();
-        final int five = Coin.FIVE.getValue();
         final Deposit deposit = new Deposit(id, buyerId, five);
 
         //when
@@ -68,5 +62,15 @@ class DepositTest {
 
         //then
         assertThat(deposit.getAmount()).isEqualTo(0);
+    }
+
+    @Test
+    void shouldThrowsNotEnoughDepositException_whenAmountToWithdrawIsOverAvailableDeposit() {
+        // given
+        final Deposit deposit = new Deposit(null, 0, ten);
+
+        // when
+        // then
+        assertThrows(NotEnoughDepositException.class, () -> deposit.remove(twenty));
     }
 }
