@@ -1,6 +1,6 @@
 package com.machines.vending.domain.models.deposits;
 
-import com.machines.vending.application.exceptions.NotEnoughDepositException;
+import com.machines.vending.domain.exceptions.NotEnoughDepositException;
 import com.machines.vending.domain.models.Model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

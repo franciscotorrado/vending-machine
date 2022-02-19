@@ -1,6 +1,6 @@
 package com.machines.vending.domain.commands;
 
-import com.machines.vending.application.exceptions.NotEnoughDepositException;
+import com.machines.vending.domain.exceptions.NotEnoughDepositException;
 import com.machines.vending.domain.models.deposits.Deposit;
 import com.machines.vending.infraestructure.persistence.deposits.DepositEntity;
 import com.machines.vending.infraestructure.persistence.deposits.DepositRepository;

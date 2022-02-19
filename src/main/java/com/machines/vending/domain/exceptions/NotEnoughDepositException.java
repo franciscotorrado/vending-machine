@@ -1,4 +1,4 @@
-package com.machines.vending.application.exceptions;
+package com.machines.vending.domain.exceptions;
 
 public class NotEnoughDepositException extends Exception {
     public NotEnoughDepositException() {
