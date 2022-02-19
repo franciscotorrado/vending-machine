@@ -1,11 +1,14 @@
 package com.machines.vending.domain.models;
 
+import com.machines.vending.domain.exceptions.InvalidCoinException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import static java.util.Objects.isNull;
 
 @AllArgsConstructor
 @Getter
@@ -24,7 +27,13 @@ public enum Coin {
 
     private int value;
 
-    static Coin of(final int value) {
+    public static Coin of(final int value) {
         return values.get(value);
+    }
+
+    public static void validate(final int value) throws InvalidCoinException {
+        if (isNull(Coin.of(value))) {
+            throw new InvalidCoinException();
+        }
     }
 }

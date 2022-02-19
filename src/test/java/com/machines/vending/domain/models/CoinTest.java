@@ -1,8 +1,10 @@
 package com.machines.vending.domain.models;
 
+import com.machines.vending.domain.exceptions.InvalidCoinException;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CoinTest {
 
@@ -24,4 +26,13 @@ class CoinTest {
         assertThat(Coin.of(100)).isEqualTo(Coin.HUNDRED);
     }
 
+    @Test
+    void shouldThrowInvalidCoinException_whenAnInvalidCoinIsReceived() {
+        // given
+        final int three = 3;
+
+        // when
+        // then
+        assertThrows(InvalidCoinException.class, () -> Coin.validate(three));
+    }
 }

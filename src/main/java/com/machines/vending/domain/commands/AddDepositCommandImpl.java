@@ -1,5 +1,7 @@
 package com.machines.vending.domain.commands;
 
+import com.machines.vending.domain.exceptions.InvalidCoinException;
+import com.machines.vending.domain.models.Coin;
 import com.machines.vending.domain.models.deposits.Deposit;
 import com.machines.vending.infraestructure.persistence.deposits.DepositEntity;
 import com.machines.vending.infraestructure.persistence.deposits.DepositMapper;
@@ -12,7 +14,9 @@ public class AddDepositCommandImpl implements AddDepositCommand {
     private final DepositRepository depositRepository;
 
     @Override
-    public ToDepositCommand add(final int coin) {
+    public ToDepositCommand add(final int coin) throws InvalidCoinException {
+        Coin.validate(coin);
+
         return depositToBeUpdated -> {
             final int buyerId = depositToBeUpdated.getBuyerId();
             final DepositEntity depositEntity = depositRepository.findByBuyerId(buyerId)
@@ -22,4 +26,5 @@ public class AddDepositCommandImpl implements AddDepositCommand {
             depositRepository.save(DepositMapper.fromModel(deposit).toEntity());
         };
     }
+
 }

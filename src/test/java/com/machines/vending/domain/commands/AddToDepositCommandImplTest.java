@@ -1,5 +1,6 @@
 package com.machines.vending.domain.commands;
 
+import com.machines.vending.domain.exceptions.InvalidCoinException;
 import com.machines.vending.domain.models.Coin;
 import com.machines.vending.domain.models.deposits.Deposit;
 import com.machines.vending.infraestructure.persistence.deposits.DepositEntity;
@@ -15,6 +16,7 @@ import java.util.Optional;
 import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -32,7 +34,7 @@ class AddToDepositCommandImplTest {
     }
 
     @Test
-    void shouldAdd() {
+    void shouldAdd() throws InvalidCoinException {
         // given
         final int five = Coin.FIVE.getValue();
         final int ten = Coin.TEN.getValue();
@@ -52,6 +54,16 @@ class AddToDepositCommandImplTest {
         final DepositEntity updatedDepositEntity = depositEntityCapture.getValue();
         assertThat(updatedDepositEntity.getBuyerId()).isEqualTo(buyerId);
         assertThat(updatedDepositEntity.getAmount()).isEqualTo(ten);
+    }
+
+    @Test
+    void shouldThrowInvalidCoinException_whenAnInvalidCoinIsReceived() {
+        // given
+        final int three = 3;
+
+        // when
+        // then
+        assertThrows(InvalidCoinException.class, () -> addDepositCommand.add(three));
     }
 
 }
