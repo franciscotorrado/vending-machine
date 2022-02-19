@@ -1,6 +1,5 @@
 package com.machines.vending.domain.commands;
 
-import com.machines.vending.domain.models.Coin;
 import com.machines.vending.domain.models.deposits.Deposit;
 import com.machines.vending.infraestructure.persistence.deposits.DepositEntity;
 import com.machines.vending.infraestructure.persistence.deposits.DepositRepository;
@@ -42,7 +41,7 @@ class ResetToDepositCommandCommandImplTest {
     @Test
     void shouldReset() {
         // given
-        final Deposit deposit = new Deposit(id, buyerId, FIVE);
+        final Deposit deposit = Deposit.builder().id(id).buyerId(buyerId).amount(FIVE).build();
         final DepositEntity depositEntity = DepositEntity.builder().id(id).buyerId(buyerId).amount(FIVE).build();
 
         when(depositRepository.findById(any())).thenReturn(Optional.of(depositEntity));
@@ -62,7 +61,7 @@ class ResetToDepositCommandCommandImplTest {
     @Test
     void shouldNotResetEmptyDeposit() {
         // given
-        final Deposit deposit = new Deposit(id, buyerId, FIVE);
+        final Deposit deposit = Deposit.builder().id(id).buyerId(buyerId).amount(FIVE).build();
 
         // when
         resetDepositCommand.reset(deposit);

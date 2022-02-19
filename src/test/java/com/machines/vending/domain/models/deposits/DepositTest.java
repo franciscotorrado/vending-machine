@@ -29,7 +29,7 @@ class DepositTest {
     void shouldCreateEmptyDeposit() {
         // given
         // when
-        final Deposit deposit = new Deposit(buyerId);
+        final Deposit deposit = Deposit.builder().buyerId(buyerId).build();
 
         // then
         assertThat(deposit.getBuyerId()).isEqualTo(buyerId);
@@ -75,7 +75,7 @@ class DepositTest {
     @Test
     void shouldThrowsNotEnoughDepositException_whenAmountToWithdrawIsOverAvailableDeposit() {
         // given
-        final Deposit deposit = new Deposit(null, 0, TEN);
+        final Deposit deposit = Deposit.builder().amount(TEN).build();
 
         // when
         // then

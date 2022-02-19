@@ -44,7 +44,7 @@ class WithdrawFromDepositCommandImplTest {
     @Test
     void shouldWithdraw() throws NotEnoughDepositException {
         // given
-        final Deposit deposit = new Deposit(id, buyerId, FIVE);
+        final Deposit deposit = Deposit.builder().id(id).buyerId(buyerId).amount(FIVE).build();
         final DepositEntity storedDeposit = DepositEntity.builder().id(id).buyerId(buyerId).amount(TEN).build();
 
         when(depositRepository.findByBuyerId(buyerId)).thenReturn(Optional.of(storedDeposit));
@@ -63,7 +63,7 @@ class WithdrawFromDepositCommandImplTest {
     @Test
     void shouldThrowsNotEnoughDepositException_whenAmountToWithdrawIsNotAvailable() {
         // given
-        final Deposit deposit = new Deposit(id, buyerId, FIVE);
+        final Deposit deposit = Deposit.builder().id(id).buyerId(buyerId).amount(FIVE).build();
         final DepositEntity storedDeposit = DepositEntity.builder().id(id).buyerId(buyerId).amount(TWENTY).build();
 
         when(depositRepository.findByBuyerId(buyerId)).thenReturn(Optional.of(storedDeposit));

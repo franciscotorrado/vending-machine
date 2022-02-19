@@ -43,7 +43,7 @@ class AddToDepositCommandImplTest {
     @Test
     void shouldAdd() throws InvalidCoinException {
         // given
-        final Deposit deposit = new Deposit(id, buyerId, FIVE);
+        final Deposit deposit = Deposit.builder().id(id).buyerId(buyerId).amount(FIVE).build();
         final DepositEntity storedDeposit = DepositEntity.builder().id(id).buyerId(buyerId).amount(FIVE).build();
 
         when(depositRepository.findByBuyerId(buyerId)).thenReturn(Optional.of(storedDeposit));
