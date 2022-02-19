@@ -12,13 +12,20 @@ class DepositEntityTest {
 
     private Integer buyerId;
     private DepositEntity depositEntity;
+    private int id;
     private int ten;
 
     @BeforeEach
     void setUp() {
         ten = Coin.TEN.getValue();
+        id = new Random().nextInt();
         buyerId = new Random().nextInt();
-        depositEntity = new DepositEntity(buyerId, ten);
+        depositEntity = DepositEntity.builder().id(id).buyerId(buyerId).amount(ten).build();
+    }
+
+    @Test
+    void getId() {
+        assertThat(depositEntity.getId()).isEqualTo(id);
     }
 
     @Test
@@ -29,6 +36,16 @@ class DepositEntityTest {
     @Test
     void getValue() {
         assertThat(depositEntity.getAmount()).isEqualTo(ten);
+    }
+
+    @Test
+    void setId() {
+        // given
+        final int newId = id + 1;
+        // when
+        depositEntity.setId(newId);
+        // then
+        assertThat(depositEntity.getId()).isEqualTo(newId);
     }
 
     @Test
@@ -57,7 +74,8 @@ class DepositEntityTest {
         // when
         final DepositEntity deposit = new DepositEntity();
         // then
-        assertThat(deposit.getBuyerId()).isNull();
+        assertThat(deposit.getId()).isNull();
+        assertThat(deposit.getBuyerId()).isZero();
         assertThat(deposit.getAmount()).isZero();
     }
 

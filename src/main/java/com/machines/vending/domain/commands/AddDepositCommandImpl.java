@@ -9,14 +9,14 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AddDepositCommandImpl implements AddDepositCommand {
 
-    public static final int ZERO = 0;
     private final DepositRepository depositRepository;
 
     @Override
     public ToDepositCommand add(final int coin) {
         return depositToBeUpdated -> {
-            final Integer buyerId = depositToBeUpdated.getBuyerId();
-            final DepositEntity depositEntity = depositRepository.findById(buyerId).orElse(new DepositEntity(buyerId, ZERO));
+            final int buyerId = depositToBeUpdated.getBuyerId();
+            final DepositEntity depositEntity = depositRepository.findByBuyerId(buyerId)
+                    .orElse(DepositEntity.builder().buyerId(buyerId).build());
             final Deposit deposit = DepositMapper.fromEntity(depositEntity).toModel();
             deposit.add(coin);
             depositRepository.save(DepositMapper.fromModel(deposit).toEntity());

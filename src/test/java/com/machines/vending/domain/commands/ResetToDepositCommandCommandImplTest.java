@@ -38,9 +38,11 @@ class ResetToDepositCommandCommandImplTest {
     void shouldReset() {
         // given
         final int five = Coin.FIVE.getValue();
-        final Integer buyerId = new Random().nextInt();
-        final Deposit deposit = new Deposit(buyerId, five);
-        final DepositEntity depositEntity = new DepositEntity(buyerId, five);
+        final int id = new Random().nextInt();
+        final int buyerId = new Random().nextInt();
+        final Deposit deposit = new Deposit(id, buyerId, five);
+        final DepositEntity depositEntity = DepositEntity.builder().id(id).buyerId(buyerId).amount(five).build();
+
         when(depositRepository.findById(any())).thenReturn(Optional.of(depositEntity));
 
         // when
@@ -59,8 +61,9 @@ class ResetToDepositCommandCommandImplTest {
     void shouldNotResetEmptyDeposit() {
         // given
         final int five = Coin.FIVE.getValue();
-        final Integer buyerId = new Random().nextInt();
-        final Deposit deposit = new Deposit(buyerId, five);
+        final int id = new Random().nextInt();
+        final int buyerId = new Random().nextInt();
+        final Deposit deposit = new Deposit(id, buyerId, five);
 
         // when
         resetDepositCommand.reset(deposit);

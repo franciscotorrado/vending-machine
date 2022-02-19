@@ -36,10 +36,12 @@ class AddToDepositCommandImplTest {
         // given
         final int five = Coin.FIVE.getValue();
         final int ten = Coin.TEN.getValue();
-        final Integer buyerId = new Random().nextInt();
-        final Deposit deposit = new Deposit(buyerId, five);
-        final DepositEntity storedDeposit = new DepositEntity(buyerId, five);
-        when(depositRepository.findById(buyerId)).thenReturn(Optional.of(storedDeposit));
+        final int id = new Random().nextInt();
+        final int buyerId = new Random().nextInt();
+        final Deposit deposit = new Deposit(id, buyerId, five);
+        final DepositEntity storedDeposit = DepositEntity.builder().id(id).buyerId(buyerId).amount(five).build();
+
+        when(depositRepository.findByBuyerId(buyerId)).thenReturn(Optional.of(storedDeposit));
 
         // when
         addDepositCommand.add(five).to(deposit);

@@ -36,10 +36,12 @@ class RemoveFromDepositCommandImplTest {
         // given
         final int five = Coin.FIVE.getValue();
         final int ten = Coin.TEN.getValue();
-        final Integer buyerId = new Random().nextInt();
-        final Deposit deposit = new Deposit(buyerId, five);
-        final DepositEntity storedDeposit = new DepositEntity(buyerId, ten);
-        when(depositRepository.findById(buyerId)).thenReturn(Optional.of(storedDeposit));
+        final int id = new Random().nextInt();
+        final int buyerId = new Random().nextInt();
+        final Deposit deposit = new Deposit(id, buyerId, five);
+        final DepositEntity storedDeposit = DepositEntity.builder().id(id).buyerId(buyerId).amount(ten).build();
+
+        when(depositRepository.findByBuyerId(buyerId)).thenReturn(Optional.of(storedDeposit));
 
         // when
         removeFromDepositCommand.remove(five).from(deposit);

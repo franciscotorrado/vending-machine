@@ -12,7 +12,8 @@ class DepositTest {
     @Test
     void shouldCreateEmptyDeposit() {
         // given
-        final Integer buyerId = new Random().nextInt();
+        final int id = new Random().nextInt();
+        final int buyerId = new Random().nextInt();
 
         // when
         final Deposit deposit = new Deposit(buyerId);
@@ -25,10 +26,11 @@ class DepositTest {
     @Test
     void shouldAddCoin() {
         //given
-        final Integer buyerId = new Random().nextInt();
+        final int id = new Random().nextInt();
+        final int buyerId = new Random().nextInt();
         final int five = Coin.FIVE.getValue();
         final int ten = Coin.TEN.getValue();
-        final Deposit deposit = new Deposit(buyerId, ten);
+        final Deposit deposit = new Deposit(id, buyerId, ten);
 
         //when
         deposit.add(five);
@@ -40,10 +42,11 @@ class DepositTest {
     @Test
     void shouldRemoveAmount() {
         //given
-        final Integer buyerId = new Random().nextInt();
+        final int id = new Random().nextInt();
+        final int buyerId = new Random().nextInt();
         final int five = Coin.FIVE.getValue();
         final int ten = Coin.TEN.getValue();
-        final Deposit deposit = new Deposit(buyerId, ten);
+        final Deposit deposit = new Deposit(id, buyerId, ten);
 
         //when
         deposit.remove(five);
@@ -55,9 +58,10 @@ class DepositTest {
     @Test
     void shouldReset() {
         //given
-        final Integer buyerId = new Random().nextInt();
+        final int id = new Random().nextInt();
+        final int buyerId = new Random().nextInt();
         final int five = Coin.FIVE.getValue();
-        final Deposit deposit = new Deposit(buyerId, five);
+        final Deposit deposit = new Deposit(id, buyerId, five);
 
         //when
         deposit.reset();
