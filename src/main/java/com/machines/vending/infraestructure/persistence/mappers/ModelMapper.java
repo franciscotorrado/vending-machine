@@ -1,7 +1,7 @@
 package com.machines.vending.infraestructure.persistence.mappers;
 
-import com.machines.vending.infraestructure.persistence.deposits.DepositEntity;
+import com.machines.vending.infraestructure.persistence.DBEntity;
 
-public interface ModelMapper {
-    DepositEntity toEntity();
+public interface ModelMapper<ENTITY extends DBEntity> {
+    ENTITY toEntity();
 }

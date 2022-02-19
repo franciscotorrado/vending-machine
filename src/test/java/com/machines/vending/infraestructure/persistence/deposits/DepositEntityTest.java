@@ -1,6 +1,6 @@
 package com.machines.vending.infraestructure.persistence.deposits;
 
-import com.machines.vending.domain.models.deposits.Coin;
+import com.machines.vending.domain.models.Coin;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

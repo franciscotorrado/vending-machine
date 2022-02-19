@@ -1,4 +1,4 @@
-package com.machines.vending.domain.models.deposits;
+package com.machines.vending.domain.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

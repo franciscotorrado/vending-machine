@@ -1,5 +1,6 @@
 package com.machines.vending.domain.models.deposits;
 
+import com.machines.vending.domain.models.Coin;
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;

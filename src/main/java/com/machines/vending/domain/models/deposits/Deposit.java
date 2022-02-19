@@ -1,11 +1,12 @@
 package com.machines.vending.domain.models.deposits;
 
+import com.machines.vending.domain.models.Model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class Deposit {
+public class Deposit extends Model {
     private Integer buyerId;
     private int amount;
 
