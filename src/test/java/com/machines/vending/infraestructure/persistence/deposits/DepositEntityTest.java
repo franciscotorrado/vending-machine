@@ -1,11 +1,12 @@
 package com.machines.vending.infraestructure.persistence.deposits;
 
-import com.machines.vending.domain.models.Coin;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
+import static com.machines.vending.utils.TestAmounts.TEN;
+import static com.machines.vending.utils.TestAmounts.TWENTY;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class DepositEntityTest {
@@ -13,14 +14,12 @@ class DepositEntityTest {
     private Integer buyerId;
     private DepositEntity depositEntity;
     private int id;
-    private int ten;
 
     @BeforeEach
     void setUp() {
-        ten = Coin.TEN.getValue();
         id = new Random().nextInt();
         buyerId = new Random().nextInt();
-        depositEntity = DepositEntity.builder().id(id).buyerId(buyerId).amount(ten).build();
+        depositEntity = DepositEntity.builder().id(id).buyerId(buyerId).amount(TEN).build();
     }
 
     @Test
@@ -35,7 +34,7 @@ class DepositEntityTest {
 
     @Test
     void getValue() {
-        assertThat(depositEntity.getAmount()).isEqualTo(ten);
+        assertThat(depositEntity.getAmount()).isEqualTo(TEN);
     }
 
     @Test
@@ -61,11 +60,10 @@ class DepositEntityTest {
     @Test
     void setValue() {
         // given
-        final int twenty = 20;
         // when
-        depositEntity.setAmount(twenty);
+        depositEntity.setAmount(TWENTY);
         // then
-        assertThat(depositEntity.getAmount()).isEqualTo(twenty);
+        assertThat(depositEntity.getAmount()).isEqualTo(TWENTY);
     }
 
     @Test

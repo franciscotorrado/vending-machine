@@ -14,6 +14,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 import java.util.Random;
 
+import static com.machines.vending.utils.TestAmounts.FIVE;
+import static com.machines.vending.utils.TestAmounts.ZERO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -22,26 +24,26 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class ResetToDepositCommandCommandImplTest {
-    private final static int ZERO = 0;
 
     private ResetDepositCommand resetDepositCommand;
 
     @Mock
     private DepositRepository depositRepository;
+    private int buyerId;
+    private int id;
 
     @BeforeEach
     void setUp() {
         resetDepositCommand = new ResetDepositCommandImpl(depositRepository);
+        buyerId = new Random().nextInt();
+        id = new Random().nextInt();
     }
 
     @Test
     void shouldReset() {
         // given
-        final int five = Coin.FIVE.getValue();
-        final int id = new Random().nextInt();
-        final int buyerId = new Random().nextInt();
-        final Deposit deposit = new Deposit(id, buyerId, five);
-        final DepositEntity depositEntity = DepositEntity.builder().id(id).buyerId(buyerId).amount(five).build();
+        final Deposit deposit = new Deposit(id, buyerId, FIVE);
+        final DepositEntity depositEntity = DepositEntity.builder().id(id).buyerId(buyerId).amount(FIVE).build();
 
         when(depositRepository.findById(any())).thenReturn(Optional.of(depositEntity));
 
@@ -60,10 +62,7 @@ class ResetToDepositCommandCommandImplTest {
     @Test
     void shouldNotResetEmptyDeposit() {
         // given
-        final int five = Coin.FIVE.getValue();
-        final int id = new Random().nextInt();
-        final int buyerId = new Random().nextInt();
-        final Deposit deposit = new Deposit(id, buyerId, five);
+        final Deposit deposit = new Deposit(id, buyerId, FIVE);
 
         // when
         resetDepositCommand.reset(deposit);

@@ -1,7 +1,6 @@
 package com.machines.vending.domain.commands;
 
 import com.machines.vending.domain.exceptions.InvalidCoinException;
-import com.machines.vending.domain.models.Coin;
 import com.machines.vending.domain.models.deposits.Deposit;
 import com.machines.vending.infraestructure.persistence.deposits.DepositEntity;
 import com.machines.vending.infraestructure.persistence.deposits.DepositRepository;
@@ -15,6 +14,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 import java.util.Random;
 
+import static com.machines.vending.utils.TestAmounts.FIVE;
+import static com.machines.vending.utils.TestAmounts.TEN;
+import static com.machines.vending.utils.TestAmounts.THREE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
@@ -22,6 +24,9 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class AddToDepositCommandImplTest {
+
+    private int id;
+    private int buyerId;
 
     private AddDepositCommand addDepositCommand;
 
@@ -31,39 +36,35 @@ class AddToDepositCommandImplTest {
     @BeforeEach
     void setUp() {
         addDepositCommand = new AddDepositCommandImpl(depositRepository);
+        id = new Random().nextInt();
+        buyerId = new Random().nextInt();
     }
 
     @Test
     void shouldAdd() throws InvalidCoinException {
         // given
-        final int five = Coin.FIVE.getValue();
-        final int ten = Coin.TEN.getValue();
-        final int id = new Random().nextInt();
-        final int buyerId = new Random().nextInt();
-        final Deposit deposit = new Deposit(id, buyerId, five);
-        final DepositEntity storedDeposit = DepositEntity.builder().id(id).buyerId(buyerId).amount(five).build();
+        final Deposit deposit = new Deposit(id, buyerId, FIVE);
+        final DepositEntity storedDeposit = DepositEntity.builder().id(id).buyerId(buyerId).amount(FIVE).build();
 
         when(depositRepository.findByBuyerId(buyerId)).thenReturn(Optional.of(storedDeposit));
 
         // when
-        addDepositCommand.add(five).to(deposit);
+        addDepositCommand.add(FIVE).to(deposit);
 
         // then
         final ArgumentCaptor<DepositEntity> depositEntityCapture = ArgumentCaptor.forClass(DepositEntity.class);
         verify(depositRepository).save(depositEntityCapture.capture());
         final DepositEntity updatedDepositEntity = depositEntityCapture.getValue();
         assertThat(updatedDepositEntity.getBuyerId()).isEqualTo(buyerId);
-        assertThat(updatedDepositEntity.getAmount()).isEqualTo(ten);
+        assertThat(updatedDepositEntity.getAmount()).isEqualTo(TEN);
     }
 
     @Test
-    void shouldThrowInvalidCoinException_whenAnInvalidCoinIsReceived() {
+    void shouldThrowsInvalidCoinException_whenAnInvalidCoinIsReceived() {
         // given
-        final int three = 3;
-
         // when
         // then
-        assertThrows(InvalidCoinException.class, () -> addDepositCommand.add(three));
+        assertThrows(InvalidCoinException.class, () -> addDepositCommand.add(THREE));
     }
 
 }

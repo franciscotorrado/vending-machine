@@ -1,7 +1,6 @@
 package com.machines.vending.domain.commands;
 
 import com.machines.vending.application.exceptions.NotEnoughDepositException;
-import com.machines.vending.domain.models.Coin;
 import com.machines.vending.domain.models.deposits.Deposit;
 import com.machines.vending.infraestructure.persistence.deposits.DepositEntity;
 import com.machines.vending.infraestructure.persistence.deposits.DepositRepository;
@@ -15,6 +14,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 import java.util.Random;
 
+import static com.machines.vending.utils.TestAmounts.FIVE;
+import static com.machines.vending.utils.TestAmounts.TEN;
+import static com.machines.vending.utils.TestAmounts.THIRTY;
+import static com.machines.vending.utils.TestAmounts.TWENTY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
@@ -22,6 +25,9 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class WithdrawFromDepositCommandImplTest {
+
+    private int id;
+    private int buyerId;
 
     private WithdrawFromDepositCommand withdrawFromDepositCommand;
 
@@ -31,47 +37,40 @@ class WithdrawFromDepositCommandImplTest {
     @BeforeEach
     void setUp() {
         withdrawFromDepositCommand = new WithdrawFromDepositCommandImpl(depositRepository);
+        id = new Random().nextInt();
+        buyerId = new Random().nextInt();
     }
 
     @Test
     void shouldWithdraw() throws NotEnoughDepositException {
         // given
-        final int five = Coin.FIVE.getValue();
-        final int ten = Coin.TEN.getValue();
-        final int id = new Random().nextInt();
-        final int buyerId = new Random().nextInt();
-        final Deposit deposit = new Deposit(id, buyerId, five);
-        final DepositEntity storedDeposit = DepositEntity.builder().id(id).buyerId(buyerId).amount(ten).build();
+        final Deposit deposit = new Deposit(id, buyerId, FIVE);
+        final DepositEntity storedDeposit = DepositEntity.builder().id(id).buyerId(buyerId).amount(TEN).build();
 
         when(depositRepository.findByBuyerId(buyerId)).thenReturn(Optional.of(storedDeposit));
 
         // when
-        withdrawFromDepositCommand.withdraw(five).from(deposit);
+        withdrawFromDepositCommand.withdraw(FIVE).from(deposit);
 
         // then
         final ArgumentCaptor<DepositEntity> depositEntityCapture = ArgumentCaptor.forClass(DepositEntity.class);
         verify(depositRepository).save(depositEntityCapture.capture());
         final DepositEntity updatedDepositEntity = depositEntityCapture.getValue();
         assertThat(updatedDepositEntity.getBuyerId()).isEqualTo(buyerId);
-        assertThat(updatedDepositEntity.getAmount()).isEqualTo(five);
+        assertThat(updatedDepositEntity.getAmount()).isEqualTo(FIVE);
     }
 
     @Test
-    void shouldThrowNotEnoughDepositException_whenAmountToWithdrawIsNotAvailable() {
+    void shouldThrowsNotEnoughDepositException_whenAmountToWithdrawIsNotAvailable() {
         // given
-        final int thirty = 30;
-        final int twenty = 20;
-        final int five = 5;
-        final int id = new Random().nextInt();
-        final int buyerId = new Random().nextInt();
-        final Deposit deposit = new Deposit(id, buyerId, five);
-        final DepositEntity storedDeposit = DepositEntity.builder().id(id).buyerId(buyerId).amount(twenty).build();
+        final Deposit deposit = new Deposit(id, buyerId, FIVE);
+        final DepositEntity storedDeposit = DepositEntity.builder().id(id).buyerId(buyerId).amount(TWENTY).build();
 
         when(depositRepository.findByBuyerId(buyerId)).thenReturn(Optional.of(storedDeposit));
 
         // when
         // then
-        assertThrows(NotEnoughDepositException.class, () -> withdrawFromDepositCommand.withdraw(thirty).from(deposit));
+        assertThrows(NotEnoughDepositException.class, () -> withdrawFromDepositCommand.withdraw(THIRTY).from(deposit));
     }
 
 }
