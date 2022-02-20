@@ -1,16 +1,14 @@
 package com.machines.vending.domain.models;
 
-import com.machines.vending.domain.exceptions.NotEnoughDepositException;
+import com.machines.vending.domain.exceptions.NotValidProductCostException;
+import com.machines.vending.domain.exceptions.NotValidProductNameException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
-import static com.machines.vending.utils.TestAmounts.FIFTEEN;
 import static com.machines.vending.utils.TestAmounts.FIVE;
-import static com.machines.vending.utils.TestAmounts.TEN;
-import static com.machines.vending.utils.TestAmounts.TWENTY;
-import static com.machines.vending.utils.TestAmounts.ZERO;
+import static com.machines.vending.utils.TestAmounts.THREE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -40,5 +38,25 @@ class ProductTest {
         assertThat(product.getCost()).isEqualTo(FIVE);
         assertThat(product.getAmountAvailable()).isZero();
         assertThat(product.getSellerId()).isZero();
+    }
+
+    @Test
+    void shouldThrowsNotValidCostException_whenCostIsNotMultipleOfFive() {
+        // given
+        // when
+        final Product product = Product.builder().cost(THREE).build();
+
+        // then
+        assertThrows(NotValidProductCostException.class, product::validate);
+    }
+
+    @Test
+    void shouldThrowsNotValidNameException_whenNameIsNullOrEmpty() {
+        // given
+        // when
+        final Product product = Product.builder().cost(FIVE).build();
+
+        // then
+        assertThrows(NotValidProductNameException.class, product::validate);
     }
 }
