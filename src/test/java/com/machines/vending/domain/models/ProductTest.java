@@ -54,7 +54,7 @@ class ProductTest {
     void shouldThrowsNotValidNameException_whenNameIsNullOrEmpty() {
         // given
         // when
-        final Product product = Product.builder().cost(FIVE).build();
+        final Product product = Product.builder().productName(null).build();
 
         // then
         assertThrows(NotValidProductNameException.class, product::validate);
