@@ -43,9 +43,9 @@ class UserTest {
     @Test
     void shouldThrowsInvalidUsernameException_whenUsernameNotMeetRequirement() {
         // given
-        // when
         final var user = User.builder().username("aaa").build();
 
+        // when
         // then
         assertThrows(InvalidUsernameException.class, () -> User.validate(user));
     }
@@ -53,9 +53,9 @@ class UserTest {
     @Test
     void shouldThrowsInvalidPasswordException_whenPasswordNotMeetRequirement() {
         // given
-        // when
         final var user = User.builder().username(username).password("asd").build();
 
+        // when
         // then
         assertThrows(InvalidPasswordException.class, () -> User.validate(user));
     }

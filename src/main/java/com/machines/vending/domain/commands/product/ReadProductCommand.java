@@ -4,5 +4,5 @@ import com.machines.vending.domain.exceptions.product.ProductNotFoundException;
 import com.machines.vending.domain.models.Product;
 
 public interface ReadProductCommand {
-    Product execute(Product productToRead) throws ProductNotFoundException;
+    Product execute(Product product) throws ProductNotFoundException;
 }

@@ -28,9 +28,9 @@ class DepositTest {
     @Test
     void shouldCreateEmptyDeposit() {
         // given
-        // when
         final Deposit deposit = Deposit.builder().buyerId(buyerId).build();
 
+        // when
         // then
         assertThat(deposit.getBuyerId()).isEqualTo(buyerId);
         assertThat(deposit.getAmount()).isZero();

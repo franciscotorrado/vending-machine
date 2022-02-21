@@ -2,8 +2,6 @@ package com.machines.vending.infraestructure.persistence.mappers;
 
 import com.machines.vending.domain.models.User;
 import com.machines.vending.infraestructure.persistence.entities.UserEntity;
-import com.machines.vending.infraestructure.persistence.mappers.EntityMapper;
-import com.machines.vending.infraestructure.persistence.mappers.ModelMapper;
 
 public final class UserMapper {
     public static EntityMapper<User> fromEntity(final UserEntity userEntity) {
