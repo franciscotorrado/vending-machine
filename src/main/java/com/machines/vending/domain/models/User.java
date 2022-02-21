@@ -1,7 +1,7 @@
 package com.machines.vending.domain.models;
 
-import com.machines.vending.domain.exceptions.InvalidPasswordException;
-import com.machines.vending.domain.exceptions.InvalidUsernameException;
+import com.machines.vending.domain.exceptions.user.InvalidPasswordException;
+import com.machines.vending.domain.exceptions.user.InvalidUsernameException;
 import lombok.Builder;
 import lombok.Getter;
 

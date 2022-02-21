@@ -1,6 +1,6 @@
 package com.machines.vending.domain.models;
 
-import com.machines.vending.domain.exceptions.InvalidRoleException;
+import com.machines.vending.domain.exceptions.role.InvalidRoleException;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

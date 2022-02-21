@@ -1,7 +1,7 @@
 package com.machines.vending.domain.models;
 
-import com.machines.vending.domain.exceptions.NotValidProductCostException;
-import com.machines.vending.domain.exceptions.NotValidProductNameException;
+import com.machines.vending.domain.exceptions.product.NotValidProductCostException;
+import com.machines.vending.domain.exceptions.product.NotValidProductNameException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,6 +1,6 @@
 package com.machines.vending.domain.models;
 
-import com.machines.vending.domain.exceptions.InvalidRoleException;
+import com.machines.vending.domain.exceptions.role.InvalidRoleException;
 
 import java.util.Arrays;
 import java.util.HashMap;

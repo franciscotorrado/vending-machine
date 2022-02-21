@@ -1,6 +1,6 @@
 package com.machines.vending.domain.models;
 
-import com.machines.vending.domain.exceptions.InvalidCoinException;
+import com.machines.vending.domain.exceptions.coin.InvalidCoinException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
