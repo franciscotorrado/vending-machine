@@ -5,8 +5,6 @@ import com.machines.vending.domain.commands.deposit.WithdrawFromDepositCommand;
 import com.machines.vending.domain.commands.product.ReduceProductAmountAvailableCommand;
 import com.machines.vending.domain.exceptions.deposit.NotEnoughDepositException;
 import com.machines.vending.domain.exceptions.product.NotEnoughProductAmountAvailableException;
-import com.machines.vending.domain.exceptions.product.NotValidProductCostException;
-import com.machines.vending.domain.exceptions.product.NotValidProductNameException;
 import com.machines.vending.domain.exceptions.product.ProductNotFoundException;
 import com.machines.vending.domain.models.Deposit;
 import com.machines.vending.domain.models.Purchase;
@@ -14,6 +12,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+
+import java.util.Random;
 
 import static com.machines.vending.utils.TestAmounts.THREE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,13 +35,13 @@ class BuyCommandImplTest {
 
     @BeforeEach
     void setUp() {
-        productId = 23;
-        buyerId = 8;
+        productId = new Random().nextInt();
+        buyerId = new Random().nextInt();
         amountToBuy = THREE;
     }
 
     @Test
-    void shouldBuyProduct() throws NotEnoughDepositException, ProductNotFoundException, NotValidProductCostException, NotValidProductNameException, NotEnoughProductAmountAvailableException {
+    void shouldBuyProduct() throws NotEnoughDepositException, ProductNotFoundException, NotEnoughProductAmountAvailableException {
         // given
         doAnswer(invocation -> null).when(fromDepositCommand).from(any());
         doAnswer(invocation -> fromDepositCommand).when(withdrawFromDepositCommand).withdraw(amountToBuy);
@@ -51,7 +51,7 @@ class BuyCommandImplTest {
         buyCommand = new BuyCommandImpl(withdrawFromDepositCommand, reduceProductAmountAvailableCommand);
 
         // when
-        buyCommand.execute(Purchase.builder().productId(productId).buyerId(buyerId).amount(amountToBuy).build());
+        buyCommand.execute(buyerId, Purchase.builder().productId(productId).amount(amountToBuy).build());
 
         // then
         final ArgumentCaptor<Deposit> depositQueryCaptor = ArgumentCaptor.forClass(Deposit.class);
@@ -70,11 +70,11 @@ class BuyCommandImplTest {
 
         buyCommand = new BuyCommandImpl(withdrawFromDepositCommand, reduceProductAmountAvailableCommand);
 
-        final Purchase purchase = Purchase.builder().productId(productId).buyerId(buyerId).amount(amountToBuy).build();
+        final Purchase purchase = Purchase.builder().productId(productId).amount(amountToBuy).build();
 
         // when
         // then
-        assertThrows(NotEnoughDepositException.class, () -> buyCommand.execute(purchase));
+        assertThrows(NotEnoughDepositException.class, () -> buyCommand.execute(buyerId, purchase));
     }
 
     @Test
@@ -87,10 +87,10 @@ class BuyCommandImplTest {
 
         buyCommand = new BuyCommandImpl(withdrawFromDepositCommand, reduceProductAmountAvailableCommand);
 
-        final Purchase purchase = Purchase.builder().productId(productId).buyerId(buyerId).amount(amountToBuy).build();
+        final Purchase purchase = Purchase.builder().productId(productId).amount(amountToBuy).build();
 
         // when
         // then
-        assertThrows(NotEnoughProductAmountAvailableException.class, () -> buyCommand.execute(purchase));
+        assertThrows(NotEnoughProductAmountAvailableException.class, () -> buyCommand.execute(buyerId, purchase));
     }
 }

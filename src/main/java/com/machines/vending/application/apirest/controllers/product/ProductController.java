@@ -60,7 +60,7 @@ public class ProductController {
     @AllowedRoles(Role.SELLER)
     public void updateProduct(Authentication authentication,
                               @PathVariable int id,
-                              @RequestBody Product product) throws NotValidProductCostException, NotValidProductNameException, ProductNotFoundException {
+                              @RequestBody Product product) throws NotValidProductCostException, ProductNotFoundException, NotValidProductNameException {
         final User user = (User) authentication.getPrincipal();
         updateProductCommand.execute(Product.builder()
                 .id(id)

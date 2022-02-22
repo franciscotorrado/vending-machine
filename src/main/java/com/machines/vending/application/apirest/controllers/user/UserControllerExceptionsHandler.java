@@ -1,6 +1,7 @@
 package com.machines.vending.application.apirest.controllers.user;
 
 import com.machines.vending.domain.exceptions.role.InvalidRoleException;
+import com.machines.vending.domain.exceptions.user.CreateUserWithGivenIdException;
 import com.machines.vending.domain.exceptions.user.InvalidPasswordException;
 import com.machines.vending.domain.exceptions.user.InvalidUsernameException;
 import lombok.AllArgsConstructor;
@@ -15,10 +16,11 @@ public class UserControllerExceptionsHandler {
     @ExceptionHandler({
             InvalidUsernameException.class,
             InvalidPasswordException.class,
-            InvalidRoleException.class
+            InvalidRoleException.class,
+            CreateUserWithGivenIdException.class
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handleInvalidCoinException(Exception e) {
+    public String handleUserExceptions(Exception e) {
         return e.getMessage();
     }
 }

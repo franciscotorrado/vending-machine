@@ -7,6 +7,5 @@ import lombok.Getter;
 @Getter
 public class Purchase extends Model {
     final int productId;
-    final int buyerId;
     final int amount;
 }
