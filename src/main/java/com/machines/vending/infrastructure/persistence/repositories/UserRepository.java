@@ -1,6 +1,6 @@
-package com.machines.vending.infraestructure.persistence.repositories;
+package com.machines.vending.infrastructure.persistence.repositories;
 
-import com.machines.vending.infraestructure.persistence.entities.UserEntity;
+import com.machines.vending.infrastructure.persistence.entities.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

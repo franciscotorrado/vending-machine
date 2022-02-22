@@ -1,7 +1,7 @@
 package com.machines.vending.domain.commands.product;
 
 import com.machines.vending.domain.models.Product;
-import com.machines.vending.infraestructure.persistence.repositories.ProductRepository;
+import com.machines.vending.infrastructure.persistence.repositories.ProductRepository;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor

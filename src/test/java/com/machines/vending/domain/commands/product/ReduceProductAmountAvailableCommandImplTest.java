@@ -2,8 +2,8 @@ package com.machines.vending.domain.commands.product;
 
 import com.machines.vending.domain.exceptions.product.NotEnoughProductAmountAvailableException;
 import com.machines.vending.domain.exceptions.product.ProductNotFoundException;
-import com.machines.vending.infraestructure.persistence.entities.ProductEntity;
-import com.machines.vending.infraestructure.persistence.repositories.ProductRepository;
+import com.machines.vending.infrastructure.persistence.entities.ProductEntity;
+import com.machines.vending.infrastructure.persistence.repositories.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

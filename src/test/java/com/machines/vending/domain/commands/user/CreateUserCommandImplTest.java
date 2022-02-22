@@ -5,8 +5,8 @@ import com.machines.vending.domain.exceptions.user.CreateUserWithGivenIdExceptio
 import com.machines.vending.domain.exceptions.user.InvalidPasswordException;
 import com.machines.vending.domain.exceptions.user.InvalidUsernameException;
 import com.machines.vending.domain.models.User;
-import com.machines.vending.infraestructure.persistence.entities.UserEntity;
-import com.machines.vending.infraestructure.persistence.repositories.UserRepository;
+import com.machines.vending.infrastructure.persistence.entities.UserEntity;
+import com.machines.vending.infrastructure.persistence.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

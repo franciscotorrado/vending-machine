@@ -1,8 +1,8 @@
 package com.machines.vending.domain.commands.deposit;
 
 import com.machines.vending.domain.models.Deposit;
-import com.machines.vending.infraestructure.persistence.entities.DepositEntity;
-import com.machines.vending.infraestructure.persistence.repositories.DepositRepository;
+import com.machines.vending.infrastructure.persistence.entities.DepositEntity;
+import com.machines.vending.infrastructure.persistence.repositories.DepositRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

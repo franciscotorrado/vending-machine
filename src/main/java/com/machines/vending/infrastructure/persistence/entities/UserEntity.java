@@ -1,4 +1,4 @@
-package com.machines.vending.infraestructure.persistence.entities;
+package com.machines.vending.infrastructure.persistence.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,10 +16,11 @@ import javax.persistence.Table;
 @Setter
 @Getter
 @Entity
-@Table(name = "deposit")
-public class DepositEntity extends DBEntity {
+@Table(name = "user")
+public class UserEntity extends DBEntity {
     @Id
     private Integer id;
-    private int buyerId;
-    private int amount;
+    private String username;
+    private String password;
+    private String role;
 }

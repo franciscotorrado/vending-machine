@@ -2,8 +2,8 @@ package com.machines.vending.domain.commands.user;
 
 import com.machines.vending.domain.exceptions.user.UserNotFoundException;
 import com.machines.vending.domain.models.User;
-import com.machines.vending.infraestructure.persistence.mappers.UserMapper;
-import com.machines.vending.infraestructure.persistence.repositories.UserRepository;
+import com.machines.vending.infrastructure.persistence.mappers.UserMapper;
+import com.machines.vending.infrastructure.persistence.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor

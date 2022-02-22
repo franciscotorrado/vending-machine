@@ -3,9 +3,9 @@ package com.machines.vending.domain.commands.deposit;
 import com.machines.vending.domain.exceptions.coin.InvalidCoinException;
 import com.machines.vending.domain.models.Coin;
 import com.machines.vending.domain.models.Deposit;
-import com.machines.vending.infraestructure.persistence.entities.DepositEntity;
-import com.machines.vending.infraestructure.persistence.mappers.DepositMapper;
-import com.machines.vending.infraestructure.persistence.repositories.DepositRepository;
+import com.machines.vending.infrastructure.persistence.entities.DepositEntity;
+import com.machines.vending.infrastructure.persistence.mappers.DepositMapper;
+import com.machines.vending.infrastructure.persistence.repositories.DepositRepository;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor

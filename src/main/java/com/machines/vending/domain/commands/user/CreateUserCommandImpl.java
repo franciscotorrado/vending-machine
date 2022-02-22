@@ -6,9 +6,9 @@ import com.machines.vending.domain.exceptions.user.InvalidPasswordException;
 import com.machines.vending.domain.exceptions.user.InvalidUsernameException;
 import com.machines.vending.domain.models.Role;
 import com.machines.vending.domain.models.User;
-import com.machines.vending.infraestructure.persistence.entities.UserEntity;
-import com.machines.vending.infraestructure.persistence.mappers.UserMapper;
-import com.machines.vending.infraestructure.persistence.repositories.UserRepository;
+import com.machines.vending.infrastructure.persistence.entities.UserEntity;
+import com.machines.vending.infrastructure.persistence.mappers.UserMapper;
+import com.machines.vending.infrastructure.persistence.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 
 import static java.util.Objects.isNull;

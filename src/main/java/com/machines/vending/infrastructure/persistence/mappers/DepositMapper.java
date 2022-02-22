@@ -1,7 +1,7 @@
-package com.machines.vending.infraestructure.persistence.mappers;
+package com.machines.vending.infrastructure.persistence.mappers;
 
 import com.machines.vending.domain.models.Deposit;
-import com.machines.vending.infraestructure.persistence.entities.DepositEntity;
+import com.machines.vending.infrastructure.persistence.entities.DepositEntity;
 
 public final class DepositMapper {
     public static EntityMapper<Deposit> fromEntity(final DepositEntity depositEntity) {

@@ -1,4 +1,4 @@
-package com.machines.vending.infraestructure.persistence.entities;
+package com.machines.vending.infrastructure.persistence.entities;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -4,8 +4,8 @@ import com.machines.vending.domain.exceptions.product.CreateProductWithGivenIdEx
 import com.machines.vending.domain.exceptions.product.NotValidProductCostException;
 import com.machines.vending.domain.exceptions.product.NotValidProductNameException;
 import com.machines.vending.domain.models.Product;
-import com.machines.vending.infraestructure.persistence.entities.ProductEntity;
-import com.machines.vending.infraestructure.persistence.repositories.ProductRepository;
+import com.machines.vending.infrastructure.persistence.entities.ProductEntity;
+import com.machines.vending.infrastructure.persistence.repositories.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,7 +1,7 @@
 package com.machines.vending.domain.commands.user;
 
 import com.machines.vending.domain.models.User;
-import com.machines.vending.infraestructure.persistence.repositories.UserRepository;
+import com.machines.vending.infrastructure.persistence.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor

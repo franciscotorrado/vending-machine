@@ -3,9 +3,9 @@ package com.machines.vending.domain.commands.product;
 import com.machines.vending.domain.exceptions.product.NotEnoughProductAmountAvailableException;
 import com.machines.vending.domain.exceptions.product.ProductNotFoundException;
 import com.machines.vending.domain.models.Product;
-import com.machines.vending.infraestructure.persistence.entities.ProductEntity;
-import com.machines.vending.infraestructure.persistence.mappers.ProductMapper;
-import com.machines.vending.infraestructure.persistence.repositories.ProductRepository;
+import com.machines.vending.infrastructure.persistence.entities.ProductEntity;
+import com.machines.vending.infrastructure.persistence.mappers.ProductMapper;
+import com.machines.vending.infrastructure.persistence.repositories.ProductRepository;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor

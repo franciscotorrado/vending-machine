@@ -1,7 +1,7 @@
-package com.machines.vending.infraestructure.persistence.mappers;
+package com.machines.vending.infrastructure.persistence.mappers;
 
 import com.machines.vending.domain.models.Product;
-import com.machines.vending.infraestructure.persistence.entities.ProductEntity;
+import com.machines.vending.infrastructure.persistence.entities.ProductEntity;
 
 public final class ProductMapper {
     public static EntityMapper<Product> fromEntity(final ProductEntity productEntity) {

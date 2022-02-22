@@ -1,7 +1,7 @@
-package com.machines.vending.infraestructure.persistence.mappers;
+package com.machines.vending.infrastructure.persistence.mappers;
 
 import com.machines.vending.domain.models.User;
-import com.machines.vending.infraestructure.persistence.entities.UserEntity;
+import com.machines.vending.infrastructure.persistence.entities.UserEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

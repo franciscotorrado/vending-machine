@@ -1,6 +1,6 @@
-package com.machines.vending.infraestructure.persistence.repositories;
+package com.machines.vending.infrastructure.persistence.repositories;
 
-import com.machines.vending.infraestructure.persistence.entities.ProductEntity;
+import com.machines.vending.infrastructure.persistence.entities.ProductEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
