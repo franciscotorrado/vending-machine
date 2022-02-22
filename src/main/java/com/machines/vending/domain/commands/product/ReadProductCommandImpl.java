@@ -5,7 +5,9 @@ import com.machines.vending.domain.models.Product;
 import com.machines.vending.infrastructure.persistence.mappers.ProductMapper;
 import com.machines.vending.infrastructure.persistence.repositories.ProductRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
+@Service
 @AllArgsConstructor
 public class ReadProductCommandImpl implements ReadProductCommand {
     private final ProductRepository productRepository;

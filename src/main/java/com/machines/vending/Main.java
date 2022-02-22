@@ -1,12 +1,17 @@
 package com.machines.vending;
 
-import com.machines.vending.application.ApplicationContext;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@SpringBootApplication(scanBasePackages = {
+        "com.machines.vending.application.*",
+        "com.machines.vending.domain.*",
+        "com.machines.vending.infrastructure.*"
+})
 public class Main {
 
     public static void main(String[] args) {
-        final ApplicationContext applicationContext = new ApplicationContext();
-        applicationContext.restApplication().initialize(args);
+        SpringApplication.run(Main.class, args);
     }
 
 }

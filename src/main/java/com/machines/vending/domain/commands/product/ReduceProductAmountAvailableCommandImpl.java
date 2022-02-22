@@ -7,7 +7,9 @@ import com.machines.vending.infrastructure.persistence.entities.ProductEntity;
 import com.machines.vending.infrastructure.persistence.mappers.ProductMapper;
 import com.machines.vending.infrastructure.persistence.repositories.ProductRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
+@Service
 @AllArgsConstructor
 public class ReduceProductAmountAvailableCommandImpl implements ReduceProductAmountAvailableCommand {
     private final ProductRepository productRepository;

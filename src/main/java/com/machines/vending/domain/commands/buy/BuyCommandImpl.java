@@ -10,9 +10,11 @@ import com.machines.vending.domain.exceptions.product.NotValidProductNameExcepti
 import com.machines.vending.domain.exceptions.product.ProductNotFoundException;
 import com.machines.vending.domain.models.Deposit;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
+@Service
 @AllArgsConstructor
 public class BuyCommandImpl implements BuyCommand {
     private final WithdrawFromDepositCommand withdrawFromDepositCommand;

@@ -8,9 +8,11 @@ import com.machines.vending.infrastructure.persistence.entities.ProductEntity;
 import com.machines.vending.infrastructure.persistence.mappers.ProductMapper;
 import com.machines.vending.infrastructure.persistence.repositories.ProductRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import static java.util.Objects.isNull;
 
+@Service
 @AllArgsConstructor
 public class CreateProductCommandImpl implements CreateProductCommand {
     private final ProductRepository productRepository;

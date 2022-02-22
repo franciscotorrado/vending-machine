@@ -7,7 +7,9 @@ import com.machines.vending.infrastructure.persistence.entities.DepositEntity;
 import com.machines.vending.infrastructure.persistence.mappers.DepositMapper;
 import com.machines.vending.infrastructure.persistence.repositories.DepositRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
+@Service
 @AllArgsConstructor
 public class AddDepositCommandImpl implements AddDepositCommand {
 

@@ -4,7 +4,9 @@ import com.machines.vending.domain.models.Deposit;
 import com.machines.vending.infrastructure.persistence.mappers.DepositMapper;
 import com.machines.vending.infrastructure.persistence.repositories.DepositRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
+@Service
 @AllArgsConstructor
 public class ResetDepositCommandImpl implements ResetDepositCommand {
     private final DepositRepository depositRepository;

@@ -10,9 +10,11 @@ import com.machines.vending.infrastructure.persistence.entities.UserEntity;
 import com.machines.vending.infrastructure.persistence.mappers.UserMapper;
 import com.machines.vending.infrastructure.persistence.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import static java.util.Objects.isNull;
 
+@Service
 @AllArgsConstructor
 public class CreateUserCommandImpl implements CreateUserCommand {
     private final UserRepository userRepository;
