@@ -15,7 +15,7 @@ public class ReadUserCommandImpl implements ReadUserCommand {
     @Override
     public User execute(final User user) throws UserNotFoundException {
         return UserMapper
-                .fromEntity(userRepository.findByUsername(user.getUsername()).orElseThrow(UserNotFoundException::new))
+                .fromEntity(userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new))
                 .toModel();
     }
 }

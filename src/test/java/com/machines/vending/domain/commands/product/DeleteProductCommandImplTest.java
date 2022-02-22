@@ -21,22 +21,24 @@ class DeleteProductCommandImplTest {
     private ProductRepository productRepository;
 
     private int id;
+    private int sellerId;
 
     @BeforeEach
     void setUp() {
         deleteProductCommand = new DeleteProductCommandImpl(productRepository);
         id = new Random().nextInt();
+        sellerId = new Random().nextInt();
     }
 
     @Test
     void deleteProduct() {
         //given
-        final Product productToDelete = Product.builder().id(id).build();
+        final Product productToDelete = Product.builder().id(id).sellerId(sellerId).build();
 
         //when
         deleteProductCommand.execute(productToDelete);
 
         //then
-        verify(productRepository).deleteById(id);
+        verify(productRepository).deleteByIdAndSellerId(id, sellerId);
     }
 }
