@@ -33,9 +33,15 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/products").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/login").permitAll()
+                .formLogin().loginPage("/login/**").permitAll()
                 .and()
                 .logout().permitAll();
+
+        httpSecurity
+                .logout(logout -> logout
+                        .logoutUrl("/logout/all")
+                        .logoutSuccessUrl("/")
+                        .invalidateHttpSession(true));
 
         httpSecurity.httpBasic().authenticationEntryPoint(authenticationEntryPoint);
 
