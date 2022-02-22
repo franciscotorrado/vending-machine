@@ -28,7 +28,7 @@ I have used AssertJ library to improve semantic in test assertions and results.
 
 I will incorporate Swagger to document the API-REST. It will be accessible at:
 
-http://localhost:8080/swagger-ui.html
+http://localhost:8080/swagger-ui/index.html
 
 It allows to check the contract and try the controller with real operations.
 
@@ -45,7 +45,7 @@ The project scaffolding has being created used Spring Initializr choosing these 
 - Lombok
 - H2 Database
 - Spring Contract Test
-- Swagger
+- OpenAPI Documentation
 
 ## Execution
 
