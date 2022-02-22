@@ -12,4 +12,10 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
     @Query(value = "UPDATE ProductEntity p SET p.amountAvailable = :amountAvailable WHERE p.id = :productId")
     void updateAmountAvailable(int productId,
                                int amountAvailable);
+
+    @Modifying
+    @Query(value = "DELETE FROM ProductEntity p WHERE p.id = :productId AND p.sellerId = :sellerId")
+    void deleteByIdAndSellerId(int productId,
+                               int sellerId);
+
 }

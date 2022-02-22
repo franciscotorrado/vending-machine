@@ -12,6 +12,6 @@ public class DeleteProductCommandImpl implements DeleteProductCommand {
 
     @Override
     public void execute(final Product product) {
-        productRepository.deleteById(product.getId());
+        productRepository.deleteByIdAndSellerId(product.getId(), product.getSellerId());
     }
 }

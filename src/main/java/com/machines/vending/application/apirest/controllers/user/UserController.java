@@ -1,4 +1,4 @@
-package com.machines.vending.application.apirest.controllers;
+package com.machines.vending.application.apirest.controllers.user;
 
 import com.machines.vending.domain.commands.user.CreateUserCommand;
 import com.machines.vending.domain.commands.user.DeleteUserCommand;
@@ -11,18 +11,20 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import static org.springframework.http.HttpStatus.OK;
 
-@RestController("/user")
 @AllArgsConstructor
+@RestController
+@RequestMapping(value = "/user",
+        consumes = "application/json",
+        produces = "application/json")
 public class UserController {
     private final CreateUserCommand createUserCommand;
     private DeleteUserCommand deleteUserCommand;
@@ -33,20 +35,10 @@ public class UserController {
     }
 
     @DeleteMapping()
-    public ResponseEntity<Void> deleteUser() {
-        final Integer userId = 0;
-        deleteUserCommand.execute(User.builder().id(userId).build());
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping(value = "/logout")
-    public ResponseEntity<Void> logout(HttpServletRequest request,
-                                       HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-
+    @ResponseStatus(OK)
+    public ResponseEntity<Void> deleteUser(Authentication authentication) {
+        final User user = (User) authentication.getPrincipal();
+        deleteUserCommand.execute(User.builder().id(user.getId()).build());
         return ResponseEntity.ok().build();
     }
 }
