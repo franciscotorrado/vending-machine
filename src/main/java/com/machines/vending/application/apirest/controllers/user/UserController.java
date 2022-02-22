@@ -2,6 +2,7 @@ package com.machines.vending.application.apirest.controllers.user;
 
 import com.machines.vending.domain.commands.user.CreateUserCommand;
 import com.machines.vending.domain.commands.user.DeleteUserCommand;
+import com.machines.vending.domain.exceptions.PositiveDepositAvailableException;
 import com.machines.vending.domain.exceptions.role.InvalidRoleException;
 import com.machines.vending.domain.exceptions.user.CreateUserWithGivenIdException;
 import com.machines.vending.domain.exceptions.user.InvalidPasswordException;
@@ -36,7 +37,7 @@ public class UserController {
 
     @DeleteMapping()
     @ResponseStatus(OK)
-    public ResponseEntity<Void> deleteUser(Authentication authentication) {
+    public ResponseEntity<Void> deleteUser(Authentication authentication) throws PositiveDepositAvailableException {
         final User user = (User) authentication.getPrincipal();
         deleteUserCommand.execute(User.builder().id(user.getId()).build());
         return ResponseEntity.ok().build();

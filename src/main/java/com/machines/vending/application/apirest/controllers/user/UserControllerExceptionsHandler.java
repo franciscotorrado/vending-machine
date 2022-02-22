@@ -1,5 +1,6 @@
 package com.machines.vending.application.apirest.controllers.user;
 
+import com.machines.vending.domain.exceptions.PositiveDepositAvailableException;
 import com.machines.vending.domain.exceptions.role.InvalidRoleException;
 import com.machines.vending.domain.exceptions.user.CreateUserWithGivenIdException;
 import com.machines.vending.domain.exceptions.user.InvalidPasswordException;
@@ -21,6 +22,14 @@ public class UserControllerExceptionsHandler {
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleUserExceptions(Exception e) {
+        return e.getMessage();
+    }
+
+    @ExceptionHandler({
+            PositiveDepositAvailableException.class
+    })
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleUserConflictExceptions(Exception e) {
         return e.getMessage();
     }
 }
