@@ -12,7 +12,6 @@ public class DeleteUserCommandImpl implements DeleteUserCommand {
 
     @Override
     public void execute(final User user) {
-        // TODO Check deposit
         userRepository.deleteById(user.getId());
     }
 }
