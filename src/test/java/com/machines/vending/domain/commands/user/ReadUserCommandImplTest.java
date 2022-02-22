@@ -35,7 +35,7 @@ class ReadUserCommandImplTest {
     void setUp() {
         readUserCommand = new ReadUserCommandImpl(userRepository);
         id = new Random().nextInt();
-        username = "Lucas Head";
+        username = "LucasHead";
         password = "er$4ttGH33";
         role = Role.BUYER.name();
     }

@@ -19,7 +19,7 @@ class UserMapperTest {
     @BeforeEach
     void setUp() {
         id = new Random().nextInt();
-        username = "Mikel Lun";
+        username = "MikelLun";
         password = "wer34$3sdfDD";
         role = "ROLE";
     }

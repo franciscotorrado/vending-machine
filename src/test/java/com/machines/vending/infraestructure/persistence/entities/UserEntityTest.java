@@ -18,7 +18,7 @@ class UserEntityTest {
     @BeforeEach
     void setUp() {
         id = new Random().nextInt();
-        username = "Maria Tod";
+        username = "MariaTod";
         password = "e344rrRR$";
         role = "ROLE";
         userEntity = UserEntity.builder().id(id).username(username).password(password).role(role).build();
@@ -57,7 +57,7 @@ class UserEntityTest {
     @Test
     void setUsername() {
         // given
-        final String newUsername = "David Core";
+        final String newUsername = "DavidCore";
         // when
         userEntity.setUsername(newUsername);
         // then
