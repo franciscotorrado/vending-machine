@@ -2,7 +2,7 @@ package com.machines.vending.domain.commands.user;
 
 import com.machines.vending.domain.commands.deposit.ReadDepositCommand;
 import com.machines.vending.domain.exceptions.PositiveDepositAvailableException;
-import com.machines.vending.domain.models.Deposit;
+import com.machines.vending.domain.models.DepositInfo;
 import com.machines.vending.domain.models.User;
 import com.machines.vending.infrastructure.persistence.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,7 +42,7 @@ class DeleteUserCommandImplTest {
     void deleteUser() throws PositiveDepositAvailableException {
         //given
         final User userToDelete = User.builder().id(id).build();
-        when(readDepositCommand.read(any())).thenReturn(Deposit.builder().amount(ZERO).build());
+        when(readDepositCommand.read(any())).thenReturn(DepositInfo.builder().amount(ZERO).build());
 
         //when
         deleteUserCommand.execute(userToDelete);
@@ -55,7 +55,7 @@ class DeleteUserCommandImplTest {
     void errorWhenUserDepositIsPositive() {
         //given
         final User userToDelete = User.builder().id(id).build();
-        when(readDepositCommand.read(any())).thenReturn(Deposit.builder().amount(TEN).build());
+        when(readDepositCommand.read(any())).thenReturn(DepositInfo.builder().amount(TEN).build());
 
         //when
         //then

@@ -5,6 +5,7 @@ import com.machines.vending.domain.commands.deposit.AddDepositCommand;
 import com.machines.vending.domain.commands.deposit.ReadDepositCommand;
 import com.machines.vending.domain.commands.deposit.ResetDepositCommand;
 import com.machines.vending.domain.models.Deposit;
+import com.machines.vending.domain.models.DepositInfo;
 import com.machines.vending.domain.models.Role;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +37,7 @@ public class DepositController extends BaseController {
 
     @GetMapping(value = "/deposit", produces = "application/json")
     @ResponseStatus(OK)
-    public Deposit readDeposit(@RequestHeader(TOKEN_KEY) String token) throws Exception {
+    public DepositInfo readDeposit(@RequestHeader(TOKEN_KEY) String token) throws Exception {
         final Integer userId = checkRights(token, Role.BUYER);
         return readDepositCommand.read(Deposit.builder().buyerId(userId).build());
     }

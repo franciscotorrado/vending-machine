@@ -1,6 +1,7 @@
 package com.machines.vending.domain.commands.deposit;
 
 import com.machines.vending.domain.models.Deposit;
+import com.machines.vending.domain.models.DepositInfo;
 import com.machines.vending.infrastructure.persistence.entities.DepositEntity;
 import com.machines.vending.infrastructure.persistence.repositories.DepositRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,11 +45,9 @@ class ReadDepositCommandCommandImplTest {
         when(depositRepository.findByBuyerId(buyerId)).thenReturn(Optional.of(depositEntity));
 
         // when
-        final Deposit storedDeposit = readDepositCommand.read(deposit);
+        final DepositInfo storedDeposit = readDepositCommand.read(deposit);
 
         // then
-        assertThat(storedDeposit.getId()).isEqualTo(id);
-        assertThat(storedDeposit.getBuyerId()).isEqualTo(buyerId);
         assertThat(storedDeposit.getAmount()).isEqualTo(amount);
     }
 }
