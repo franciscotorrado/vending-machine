@@ -40,7 +40,7 @@ public class TokenServer {
                 .map(Map.Entry::getValue);
     }
 
-    public static void removeToken(Integer userId) {
+    public static synchronized void removeToken(Integer userId) {
         for (Map.Entry<String, UserSessionDetails> session : sessions.entrySet()) {
             if (session.getValue().getId().equals(userId)) {
                 sessions.remove(session.getKey());

@@ -33,10 +33,10 @@ public class LoginController extends BaseController {
 
     @PostMapping("/logout/all")
     @ResponseStatus(OK)
-    public LoginResponse logout(@RequestBody LoginRequest loginRequest) throws Exception {
+    public String logout(@RequestBody LoginRequest loginRequest) throws Exception {
         final String username = loginRequest.getUsername();
         final String password = loginRequest.getPassword();
-        String token = logoutCommand.execute(username, password);
-        return new LoginResponse(token);
+        logoutCommand.execute(username, password);
+        return "All sessions closed.";
     }
 }
