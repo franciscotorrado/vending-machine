@@ -2,11 +2,8 @@ package com.machines.vending.application.apirest.controllers.buy;
 
 import com.machines.vending.application.apirest.controllers.BaseController;
 import com.machines.vending.domain.commands.buy.BuyCommand;
-import com.machines.vending.domain.exceptions.deposit.NotEnoughDepositException;
-import com.machines.vending.domain.exceptions.product.NotEnoughProductAmountAvailableException;
-import com.machines.vending.domain.exceptions.product.ProductNotFoundException;
-import com.machines.vending.domain.exceptions.session.NoActiveSessionException;
 import com.machines.vending.domain.models.Purchase;
+import com.machines.vending.domain.models.Role;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,8 +25,8 @@ public class BuyController extends BaseController {
     @PostMapping(value = "/buy")
     @ResponseStatus(OK)
     public void addDeposit(@RequestHeader(TOKEN_KEY) String token,
-                           @RequestBody Purchase purchase) throws NotEnoughProductAmountAvailableException, NotEnoughDepositException, ProductNotFoundException, NoActiveSessionException {
-        final Integer userId = getUserInformationFromToken(token);
+                           @RequestBody Purchase purchase) throws Exception {
+        final Integer userId = checkRights(token, Role.BUYER);
         buyCommand.execute(userId, purchase);
     }
 }

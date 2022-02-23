@@ -1,5 +1,8 @@
 package com.machines.vending.infrastructure.session;
 
+import com.machines.vending.domain.models.Role;
+import com.machines.vending.domain.models.security.UserSessionDetails;
+
 import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Collections;
@@ -8,32 +11,46 @@ import java.util.Map;
 import java.util.Optional;
 
 public class TokenServer {
-    private final static Map<Integer, String> sessions = Collections.synchronizedMap(new HashMap<>());
+    private final static Map<String, UserSessionDetails> sessions = Collections.synchronizedMap(new HashMap<>());
 
     private static final SecureRandom secureRandom = new SecureRandom();
     private static final Base64.Encoder base64Encoder = Base64.getUrlEncoder();
 
-    public static Optional<String> getToken(Integer userId) {
-        if (sessions.containsKey(userId)) {
+    public static Optional<String> getToken(Integer userId,
+                                            Role role) {
+
+        if (isAlreadyLogged(userId)) {
             return Optional.empty();
         }
 
         byte[] randomBytes = new byte[32];
         secureRandom.nextBytes(randomBytes);
-        final String newToken = base64Encoder.encodeToString(randomBytes);
-        sessions.put(userId, newToken);
-        return Optional.of(newToken);
+        final String token = base64Encoder.encodeToString(randomBytes);
+        final UserSessionDetails userSessionDetails = new UserSessionDetails(userId, role);
+        sessions.put(token, userSessionDetails);
+        return Optional.of(token);
     }
 
-    public static Optional<Integer> getUserId(String token) {
+    public static Optional<UserSessionDetails> getUserSessionDetails(String token) {
+        return sessions
+                .entrySet()
+                .stream()
+                .filter(s -> s.getKey().equals(token))
+                .findFirst()
+                .map(Map.Entry::getValue);
+    }
+
+    public static void removeToken(Integer userId) {
+        for (Map.Entry<String, UserSessionDetails> session : sessions.entrySet()) {
+            if (session.getValue().getUserId().equals(userId)) {
+                sessions.remove(session.getKey());
+            }
+        }
+    }
+
+    private static boolean isAlreadyLogged(final Integer userId) {
         return sessions.entrySet()
                 .stream()
-                .filter(s -> s.getValue().equals(token))
-                .findFirst()
-                .map(Map.Entry::getKey);
-    }
-
-    public static void removeToken(int userId) {
-        sessions.remove(userId);
+                .anyMatch(s -> s.getValue().getUserId().equals(userId));
     }
 }

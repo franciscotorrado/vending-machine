@@ -1,4 +1,4 @@
-package com.machines.vending.domain.exceptions.session;
+package com.machines.vending.domain.exceptions.security;
 
 public class InvalidUsernameOrPasswordException extends Exception {
     public InvalidUsernameOrPasswordException() {

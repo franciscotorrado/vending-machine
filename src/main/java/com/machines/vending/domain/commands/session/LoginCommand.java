@@ -1,7 +1,7 @@
 package com.machines.vending.domain.commands.session;
 
 import com.machines.vending.domain.exceptions.session.ConcurrentSessionsException;
-import com.machines.vending.domain.exceptions.session.InvalidUsernameOrPasswordException;
+import com.machines.vending.domain.exceptions.security.InvalidUsernameOrPasswordException;
 
 public interface LoginCommand {
     String execute(String username,

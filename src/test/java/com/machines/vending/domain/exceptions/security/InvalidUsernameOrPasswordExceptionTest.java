@@ -1,4 +1,4 @@
-package com.machines.vending.domain.exceptions.session;
+package com.machines.vending.domain.exceptions.security;
 
 import org.junit.jupiter.api.Test;
 

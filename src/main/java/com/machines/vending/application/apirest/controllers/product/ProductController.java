@@ -1,17 +1,11 @@
 package com.machines.vending.application.apirest.controllers.product;
 
-import com.machines.vending.application.apirest.configuration.security.AllowedRoles;
 import com.machines.vending.application.apirest.controllers.BaseController;
 import com.machines.vending.domain.commands.product.CreateProductCommand;
 import com.machines.vending.domain.commands.product.DeleteProductCommand;
 import com.machines.vending.domain.commands.product.ReadAllProductsCommand;
 import com.machines.vending.domain.commands.product.ReadProductCommand;
 import com.machines.vending.domain.commands.product.UpdateProductCommand;
-import com.machines.vending.domain.exceptions.product.CreateProductWithGivenIdException;
-import com.machines.vending.domain.exceptions.product.NotValidProductCostException;
-import com.machines.vending.domain.exceptions.product.NotValidProductNameException;
-import com.machines.vending.domain.exceptions.product.ProductNotFoundException;
-import com.machines.vending.domain.exceptions.session.NoActiveSessionException;
 import com.machines.vending.domain.models.Product;
 import com.machines.vending.domain.models.Role;
 import lombok.AllArgsConstructor;
@@ -45,10 +39,9 @@ public class ProductController extends BaseController {
 
     @PostMapping()
     @ResponseStatus(CREATED)
-    @AllowedRoles(Role.SELLER)
     public Product createProduct(@RequestHeader(TOKEN_KEY) String token,
-                                 @RequestBody Product product) throws CreateProductWithGivenIdException, NotValidProductCostException, NotValidProductNameException, NoActiveSessionException {
-        final Integer userId = getUserInformationFromToken(token);
+                                 @RequestBody Product product) throws Exception {
+        final Integer userId = checkRights(token, Role.SELLER);
         return createProductCommand.execute(Product.builder()
                 .sellerId(userId)
                 .productName(product.getProductName())
@@ -59,11 +52,10 @@ public class ProductController extends BaseController {
 
     @PutMapping("/{id}")
     @ResponseStatus(OK)
-    @AllowedRoles(Role.SELLER)
     public void updateProduct(@RequestHeader(TOKEN_KEY) String token,
                               @PathVariable int id,
-                              @RequestBody Product product) throws NotValidProductCostException, ProductNotFoundException, NotValidProductNameException, NoActiveSessionException {
-        final Integer userId = getUserInformationFromToken(token);
+                              @RequestBody Product product) throws Exception {
+        final Integer userId = checkRights(token, Role.SELLER);
         updateProductCommand.execute(Product.builder()
                 .id(id)
                 .sellerId(userId)
@@ -74,10 +66,9 @@ public class ProductController extends BaseController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(OK)
-    @AllowedRoles(Role.SELLER)
     public void deleteProduct(@RequestHeader(TOKEN_KEY) String token,
-                              @PathVariable int id) throws NoActiveSessionException {
-        final Integer userId = getUserInformationFromToken(token);
+                              @PathVariable int id) throws Exception {
+        final Integer userId = checkRights(token, Role.SELLER);
         deleteProductCommand.execute(Product.builder()
                 .id(id)
                 .sellerId(userId)
@@ -86,7 +77,7 @@ public class ProductController extends BaseController {
 
     @GetMapping("/{id}")
     @ResponseStatus(OK)
-    public void getProduct(@PathVariable int id) throws ProductNotFoundException {
+    public void getProduct(@PathVariable int id) throws Exception {
         readProductCommand.execute(Product.builder()
                 .id(id)
                 .build());
