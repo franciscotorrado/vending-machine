@@ -23,7 +23,7 @@ public class UserControllerIntegrationTest extends AuthenticationBaseTest {
 
     @BeforeEach
     public void setUp() {
-        userRepository.save(UserEntity.builder().username(username).password(password).role(Role.BUYER.name()).build());
+        userRepository.deleteAll();
     }
 
     @Test
@@ -48,6 +48,7 @@ public class UserControllerIntegrationTest extends AuthenticationBaseTest {
     @Test
     void shouldDeleteUser() throws Exception {
         // given
+        userRepository.save(UserEntity.builder().username(username).password(password).role(Role.BUYER.name()).build());
         final String url = "/user";
         // when
         String response = mockMvc.perform(
@@ -64,6 +65,7 @@ public class UserControllerIntegrationTest extends AuthenticationBaseTest {
     @Test
     void shouldUpdateUser() throws Exception {
         // given
+        userRepository.save(UserEntity.builder().username(username).password(password).role(Role.BUYER.name()).build());
         final String url = "/user";
         final User userToUpdate = User.builder().username(username).password(password + "v2").build();
         final String user = objectMapper.writeValueAsString(userToUpdate);
@@ -84,6 +86,7 @@ public class UserControllerIntegrationTest extends AuthenticationBaseTest {
     @Test
     void shouldReadUser() throws Exception {
         // given
+        userRepository.save(UserEntity.builder().username(username).password(password).role(Role.BUYER.name()).build());
         final String url = "/user";
         // when
         String response = mockMvc.perform(

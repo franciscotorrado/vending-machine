@@ -1,5 +1,6 @@
 package com.machines.vending.domain.commands.user;
 
+import com.machines.vending.domain.exceptions.user.CreateUserException;
 import com.machines.vending.domain.exceptions.role.InvalidRoleException;
 import com.machines.vending.domain.exceptions.user.CreateUserWithGivenIdException;
 import com.machines.vending.domain.exceptions.user.InvalidPasswordException;
@@ -14,6 +15,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.persistence.PersistenceException;
 import java.util.Random;
 
 import static com.machines.vending.domain.models.Role.BUYER;
@@ -46,7 +48,7 @@ class CreateUserCommandImplTest {
     }
 
     @Test
-    void createUser() throws InvalidPasswordException, InvalidRoleException, InvalidUsernameException, CreateUserWithGivenIdException {
+    void createUser() throws InvalidPasswordException, InvalidRoleException, InvalidUsernameException, CreateUserWithGivenIdException, CreateUserException {
         //given
         final User userToCreate = User.builder().username(username).password(password).role(role).build();
         when(userRepository.save(any())).thenReturn(UserEntity.builder().id(id).build());
@@ -102,5 +104,17 @@ class CreateUserCommandImplTest {
 
         // then
         assertThrows(CreateUserWithGivenIdException.class, () -> createUserCommand.execute(userToCreate));
+    }
+
+    @Test
+    void shouldThrowsCreateUserException_whenReceivedUsernameIsAlreadyRegistered() {
+        // given
+        when(userRepository.save(any())).thenThrow(new PersistenceException("Error"));
+
+        // when
+        final User userToCreate = User.builder().username(username).password(password).role(role).build();
+
+        // then
+        assertThrows(CreateUserException.class, () -> createUserCommand.execute(userToCreate));
     }
 }

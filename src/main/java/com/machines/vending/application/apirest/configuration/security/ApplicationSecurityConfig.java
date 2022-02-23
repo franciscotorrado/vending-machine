@@ -32,16 +32,10 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user").permitAll()
                 .antMatchers("/deposit","/reset").hasRole(Role.BUYER.name())
                 .antMatchers("/products").permitAll()
-                .antMatchers("/login").permitAll()
+                .antMatchers("/login", "/logout/all").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .logout().permitAll();
-
-        httpSecurity
-                .logout(logout -> logout
-                        .logoutUrl("/logout/all")
-                        .logoutSuccessUrl("/")
-                        .invalidateHttpSession(true));
 
         httpSecurity.httpBasic().authenticationEntryPoint(authenticationEntryPoint);
 

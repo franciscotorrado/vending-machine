@@ -1,7 +1,7 @@
 package com.machines.vending.domain.exceptions.session;
 
-public class InvalidUsernameOrPassword extends Exception {
-    public InvalidUsernameOrPassword() {
+public class InvalidUsernameOrPasswordException extends Exception {
+    public InvalidUsernameOrPasswordException() {
         super("Invalid username or password. Try again!");
     }
 }

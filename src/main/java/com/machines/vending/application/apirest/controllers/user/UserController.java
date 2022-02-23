@@ -5,6 +5,8 @@ import com.machines.vending.domain.commands.user.CreateUserCommand;
 import com.machines.vending.domain.commands.user.DeleteUserCommand;
 import com.machines.vending.domain.commands.user.ReadUserCommand;
 import com.machines.vending.domain.commands.user.UpdateUserCommand;
+import com.machines.vending.domain.exceptions.session.NoActiveSessionException;
+import com.machines.vending.domain.exceptions.user.CreateUserException;
 import com.machines.vending.domain.exceptions.PositiveDepositAvailableException;
 import com.machines.vending.domain.exceptions.role.InvalidRoleException;
 import com.machines.vending.domain.exceptions.user.CreateUserWithGivenIdException;
@@ -37,30 +39,30 @@ public class UserController extends BaseController {
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(CREATED)
-    public void createUser(@RequestBody User user) throws CreateUserWithGivenIdException, InvalidPasswordException, InvalidRoleException, InvalidUsernameException {
+    public void createUser(@RequestBody User user) throws CreateUserWithGivenIdException, InvalidPasswordException, InvalidRoleException, InvalidUsernameException, CreateUserException {
         createUserCommand.execute(user);
     }
 
     @DeleteMapping()
     @ResponseStatus(OK)
-    public void deleteUser(@RequestHeader(TOKEN_KEY) String token) throws PositiveDepositAvailableException {
-        final Integer[] userId = getUserInformationFromToken(token);
-        deleteUserCommand.execute(User.builder().id(userId[0]).build());
+    public void deleteUser(@RequestHeader(TOKEN_KEY) String token) throws PositiveDepositAvailableException, NoActiveSessionException {
+        final Integer userId = getUserInformationFromToken(token);
+        deleteUserCommand.execute(User.builder().id(userId).build());
     }
 
     @GetMapping(produces = "application/json")
     @ResponseStatus(OK)
-    public void readUser(@RequestHeader(TOKEN_KEY) String token) throws UserNotFoundException {
-        final Integer[] userId = getUserInformationFromToken(token);
-        readUserCommand.execute(User.builder().id(userId[0]).build());
+    public User readUser(@RequestHeader(TOKEN_KEY) String token) throws UserNotFoundException, NoActiveSessionException {
+        final Integer userId = getUserInformationFromToken(token);
+        return readUserCommand.execute(User.builder().id(userId).build());
     }
 
     @PutMapping(consumes = "application/json")
     @ResponseStatus(OK)
     public void updateUser(@RequestHeader(TOKEN_KEY) String token,
-                           @RequestBody User user) throws InvalidPasswordException, InvalidRoleException, InvalidUsernameException {
-        final Integer[] userId = getUserInformationFromToken(token);
-        updateUserCommand.execute(User.builder().id(userId[0]).username(user.getUsername()).password(user.getPassword()).build());
+                           @RequestBody User user) throws InvalidPasswordException, InvalidRoleException, InvalidUsernameException, NoActiveSessionException {
+        final Integer userId = getUserInformationFromToken(token);
+        updateUserCommand.execute(User.builder().id(userId).username(user.getUsername()).password(user.getPassword()).build());
     }
 
 }

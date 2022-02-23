@@ -1,5 +1,6 @@
 package com.machines.vending.domain.commands.user;
 
+import com.machines.vending.domain.exceptions.user.CreateUserException;
 import com.machines.vending.domain.exceptions.role.InvalidRoleException;
 import com.machines.vending.domain.exceptions.user.CreateUserWithGivenIdException;
 import com.machines.vending.domain.exceptions.user.InvalidPasswordException;
@@ -20,14 +21,18 @@ public class CreateUserCommandImpl implements CreateUserCommand {
     private final UserRepository userRepository;
 
     @Override
-    public void execute(final User user) throws InvalidPasswordException, InvalidUsernameException, InvalidRoleException, CreateUserWithGivenIdException {
+    public void execute(final User user) throws InvalidPasswordException, InvalidUsernameException, InvalidRoleException, CreateUserWithGivenIdException, CreateUserException {
         checkIsNew(user);
         User.validate(user);
         Role.validate(user.getRole());
 
         final UserEntity userEntity = UserMapper.fromModel(user).toEntity();
 
-        userRepository.save(userEntity);
+        try {
+            userRepository.save(userEntity);
+        } catch (Exception e) {
+            throw new CreateUserException();
+        }
     }
 
     private void checkIsNew(final User user) throws CreateUserWithGivenIdException {

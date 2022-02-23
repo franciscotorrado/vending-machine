@@ -3,6 +3,7 @@ package com.machines.vending.domain.models;
 import com.machines.vending.domain.exceptions.product.NotEnoughProductAmountAvailableException;
 import com.machines.vending.domain.exceptions.product.NotValidProductCostException;
 import com.machines.vending.domain.exceptions.product.NotValidProductNameException;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 import org.apache.logging.log4j.util.Strings;
@@ -10,6 +11,7 @@ import org.apache.logging.log4j.util.Strings;
 @Builder
 @Getter
 public class Product extends Model {
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private Integer id;
     private String productName;
     private int cost;

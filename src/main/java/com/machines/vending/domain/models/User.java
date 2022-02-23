@@ -2,6 +2,7 @@ package com.machines.vending.domain.models;
 
 import com.machines.vending.domain.exceptions.user.InvalidPasswordException;
 import com.machines.vending.domain.exceptions.user.InvalidUsernameException;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -11,8 +12,9 @@ import java.util.regex.Pattern;
 @Builder
 @Getter
 public class User extends Model {
-    private Integer id;
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private String username;
+    private Integer id;
     private String password;
     private String role;
 

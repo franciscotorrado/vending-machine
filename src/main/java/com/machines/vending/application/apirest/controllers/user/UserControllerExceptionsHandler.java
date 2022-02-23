@@ -1,5 +1,6 @@
 package com.machines.vending.application.apirest.controllers.user;
 
+import com.machines.vending.domain.exceptions.user.CreateUserException;
 import com.machines.vending.domain.exceptions.PositiveDepositAvailableException;
 import com.machines.vending.domain.exceptions.role.InvalidRoleException;
 import com.machines.vending.domain.exceptions.user.CreateUserWithGivenIdException;
@@ -26,7 +27,8 @@ public class UserControllerExceptionsHandler {
     }
 
     @ExceptionHandler({
-            PositiveDepositAvailableException.class
+            PositiveDepositAvailableException.class,
+            CreateUserException.class
     })
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleUserConflictExceptions(Exception e) {
