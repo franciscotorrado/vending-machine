@@ -7,6 +7,7 @@ import com.machines.vending.domain.commands.product.ReadAllProductsCommand;
 import com.machines.vending.domain.commands.product.ReadProductCommand;
 import com.machines.vending.domain.commands.product.UpdateProductCommand;
 import com.machines.vending.domain.models.Product;
+import com.machines.vending.domain.models.ProductItem;
 import com.machines.vending.domain.models.Role;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -85,7 +86,7 @@ public class ProductController extends BaseController {
 
     @GetMapping("")
     @ResponseStatus(OK)
-    public List<Product> getAllProducts() {
+    public List<ProductItem> getAllProducts() {
         return readAllProductsCommand.execute();
     }
 }

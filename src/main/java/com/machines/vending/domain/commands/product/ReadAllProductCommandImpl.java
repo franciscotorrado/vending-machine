@@ -1,7 +1,7 @@
 package com.machines.vending.domain.commands.product;
 
-import com.machines.vending.domain.models.Product;
-import com.machines.vending.infrastructure.persistence.mappers.ProductMapper;
+import com.machines.vending.domain.models.ProductItem;
+import com.machines.vending.infrastructure.persistence.mappers.ProductItemMapper;
 import com.machines.vending.infrastructure.persistence.repositories.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,10 +15,10 @@ public class ReadAllProductCommandImpl implements ReadAllProductsCommand {
     private final ProductRepository productRepository;
 
     @Override
-    public List<Product> execute() {
+    public List<ProductItem> execute() {
         return productRepository.findAll()
                 .stream()
-                .map(p -> ProductMapper.fromEntity(p).toModel())
+                .map(p -> ProductItemMapper.fromEntity(p).toModel())
                 .collect(Collectors.toList());
     }
 }
