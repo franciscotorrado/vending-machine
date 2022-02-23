@@ -30,10 +30,10 @@ public class DepositController extends BaseController {
 
     @PostMapping(value = "/deposit", consumes = "application/json", produces = "application/json")
     @ResponseStatus(OK)
-    public void addDeposit(@RequestHeader(TOKEN_KEY) String token,
+    public DepositInfo addDeposit(@RequestHeader(TOKEN_KEY) String token,
                            @RequestBody Deposit deposit) throws Exception {
         final UserSessionDetails user = checkRights(token, Role.BUYER);
-        addDepositCommand.add(deposit.getAmount()).to(Deposit.builder().buyerId(user.getId()).build());
+        return addDepositCommand.add(deposit.getAmount()).to(Deposit.builder().buyerId(user.getId()).build());
     }
 
     @GetMapping(value = "/deposit", produces = "application/json")
@@ -43,10 +43,10 @@ public class DepositController extends BaseController {
         return readDepositCommand.read(Deposit.builder().buyerId(user.getId()).build());
     }
 
-    @PutMapping(value = "/reset", consumes = "application/json", produces = "application/json")
+    @PutMapping(value = "/reset", produces = "application/json")
     @ResponseStatus(OK)
-    public void resetDeposit(@RequestHeader(TOKEN_KEY) String token) throws Exception {
+    public DepositInfo resetDeposit(@RequestHeader(TOKEN_KEY) String token) throws Exception {
         final UserSessionDetails user = checkRights(token, Role.BUYER);
-        resetDepositCommand.reset(Deposit.builder().buyerId(user.getId()).build());
+        return resetDepositCommand.reset(Deposit.builder().buyerId(user.getId()).build());
     }
 }

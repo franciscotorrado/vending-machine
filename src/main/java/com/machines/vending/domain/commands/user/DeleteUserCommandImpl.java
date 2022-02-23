@@ -16,7 +16,7 @@ public class DeleteUserCommandImpl implements DeleteUserCommand {
 
     @Override
     public void execute(final User user) throws PositiveDepositAvailableException {
-        int depositAmount = readDepositCommand.read(Deposit.builder().buyerId(user.getId()).build()).getAmount();
+        int depositAmount = readDepositCommand.read(Deposit.builder().buyerId(user.getId()).build()).getAvailableAmount();
         if (depositAmount > 0) {
             throw new PositiveDepositAvailableException();
         }

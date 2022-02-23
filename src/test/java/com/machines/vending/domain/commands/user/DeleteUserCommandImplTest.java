@@ -42,7 +42,7 @@ class DeleteUserCommandImplTest {
     void deleteUser() throws PositiveDepositAvailableException {
         //given
         final User userToDelete = User.builder().id(id).build();
-        when(readDepositCommand.read(any())).thenReturn(DepositInfo.builder().amount(ZERO).build());
+        when(readDepositCommand.read(any())).thenReturn(DepositInfo.builder().availableAmount(ZERO).build());
 
         //when
         deleteUserCommand.execute(userToDelete);
@@ -55,7 +55,7 @@ class DeleteUserCommandImplTest {
     void errorWhenUserDepositIsPositive() {
         //given
         final User userToDelete = User.builder().id(id).build();
-        when(readDepositCommand.read(any())).thenReturn(DepositInfo.builder().amount(TEN).build());
+        when(readDepositCommand.read(any())).thenReturn(DepositInfo.builder().availableAmount(TEN).build());
 
         //when
         //then

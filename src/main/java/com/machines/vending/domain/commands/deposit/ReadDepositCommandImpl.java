@@ -15,7 +15,7 @@ public class ReadDepositCommandImpl implements ReadDepositCommand {
     @Override
     public DepositInfo read(final Deposit deposit) {
         return DepositInfo.builder()
-                .amount(depositRepository.findByBuyerId(deposit.getBuyerId())
+                .availableAmount(depositRepository.findByBuyerId(deposit.getBuyerId())
                         .orElse(DepositEntity.builder().build()).getAmount())
                 .build();
     }

@@ -1,7 +1,8 @@
 package com.machines.vending.domain.commands.deposit;
 
 import com.machines.vending.domain.models.Deposit;
+import com.machines.vending.domain.models.DepositInfo;
 
 public interface ToDepositCommand {
-    void to(Deposit deposit);
+    DepositInfo to(Deposit deposit);
 }

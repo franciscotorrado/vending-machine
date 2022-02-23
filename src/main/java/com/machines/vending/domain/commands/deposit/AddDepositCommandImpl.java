@@ -3,6 +3,7 @@ package com.machines.vending.domain.commands.deposit;
 import com.machines.vending.domain.exceptions.coin.InvalidCoinException;
 import com.machines.vending.domain.models.Coin;
 import com.machines.vending.domain.models.Deposit;
+import com.machines.vending.domain.models.DepositInfo;
 import com.machines.vending.infrastructure.persistence.entities.DepositEntity;
 import com.machines.vending.infrastructure.persistence.mappers.DepositMapper;
 import com.machines.vending.infrastructure.persistence.repositories.DepositRepository;
@@ -25,7 +26,10 @@ public class AddDepositCommandImpl implements AddDepositCommand {
                     .orElse(DepositEntity.builder().buyerId(buyerId).build());
             final Deposit deposit = DepositMapper.fromEntity(depositEntity).toModel();
             deposit.add(coin);
-            depositRepository.save(DepositMapper.fromModel(deposit).toEntity());
+            return DepositInfo
+                    .builder()
+                    .availableAmount(depositRepository.save(DepositMapper.fromModel(deposit).toEntity()).getAmount())
+                    .build();
         };
     }
 

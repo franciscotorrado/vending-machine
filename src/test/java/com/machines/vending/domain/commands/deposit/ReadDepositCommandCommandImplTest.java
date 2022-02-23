@@ -48,6 +48,6 @@ class ReadDepositCommandCommandImplTest {
         final DepositInfo storedDeposit = readDepositCommand.read(deposit);
 
         // then
-        assertThat(storedDeposit.getAmount()).isEqualTo(amount);
+        assertThat(storedDeposit.getAvailableAmount()).isEqualTo(amount);
     }
 }
