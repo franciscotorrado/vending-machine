@@ -20,7 +20,7 @@ public class CreateUserCommandImpl implements CreateUserCommand {
     private final UserRepository userRepository;
 
     @Override
-    public User execute(final User user) throws InvalidPasswordException, InvalidUsernameException, InvalidRoleException, CreateUserWithGivenIdException {
+    public void execute(final User user) throws InvalidPasswordException, InvalidUsernameException, InvalidRoleException, CreateUserWithGivenIdException {
         checkIsNew(user);
         User.validate(user);
         Role.validate(user.getRole());
@@ -28,8 +28,6 @@ public class CreateUserCommandImpl implements CreateUserCommand {
         final UserEntity userEntity = UserMapper.fromModel(user).toEntity();
 
         final UserEntity createdUser = userRepository.save(userEntity);
-
-        return User.builder().id(createdUser.getId()).build();
     }
 
     private void checkIsNew(final User user) throws CreateUserWithGivenIdException {

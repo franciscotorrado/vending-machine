@@ -7,5 +7,5 @@ import com.machines.vending.domain.exceptions.user.InvalidUsernameException;
 import com.machines.vending.domain.models.User;
 
 public interface CreateUserCommand {
-    User execute(User user) throws InvalidPasswordException, InvalidUsernameException, InvalidRoleException, CreateUserWithGivenIdException;
+    void execute(User user) throws InvalidPasswordException, InvalidUsernameException, InvalidRoleException, CreateUserWithGivenIdException;
 }

@@ -52,10 +52,9 @@ class CreateUserCommandImplTest {
         when(userRepository.save(any())).thenReturn(UserEntity.builder().id(id).build());
 
         //when
-        final User createdUser = createUserCommand.execute(userToCreate);
+        createUserCommand.execute(userToCreate);
 
         //then
-        assertThat(createdUser.getId()).isEqualTo(id);
         final ArgumentCaptor<UserEntity> userEntityCaptor = ArgumentCaptor.forClass(UserEntity.class);
         verify(userRepository).save(userEntityCaptor.capture());
         final UserEntity userEntity = userEntityCaptor.getValue();

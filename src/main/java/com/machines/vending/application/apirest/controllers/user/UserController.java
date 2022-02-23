@@ -9,8 +9,6 @@ import com.machines.vending.domain.exceptions.user.InvalidPasswordException;
 import com.machines.vending.domain.exceptions.user.InvalidUsernameException;
 import com.machines.vending.domain.models.User;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 @AllArgsConstructor
@@ -31,15 +30,15 @@ public class UserController {
     private DeleteUserCommand deleteUserCommand;
 
     @PostMapping()
-    public ResponseEntity<User> createUser(@RequestBody User user) throws CreateUserWithGivenIdException, InvalidPasswordException, InvalidRoleException, InvalidUsernameException {
-        return new ResponseEntity<>(createUserCommand.execute(user), HttpStatus.CREATED);
+    @ResponseStatus(CREATED)
+    public void createUser(@RequestBody User user) throws CreateUserWithGivenIdException, InvalidPasswordException, InvalidRoleException, InvalidUsernameException {
+        createUserCommand.execute(user);
     }
 
     @DeleteMapping()
     @ResponseStatus(OK)
-    public ResponseEntity<Void> deleteUser(Authentication authentication) throws PositiveDepositAvailableException {
+    public void deleteUser(Authentication authentication) throws PositiveDepositAvailableException {
         final User user = (User) authentication.getPrincipal();
         deleteUserCommand.execute(User.builder().id(user.getId()).build());
-        return ResponseEntity.ok().build();
     }
 }
