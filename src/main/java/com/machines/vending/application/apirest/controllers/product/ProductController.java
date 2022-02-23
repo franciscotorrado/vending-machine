@@ -6,6 +6,7 @@ import com.machines.vending.domain.commands.product.DeleteProductCommand;
 import com.machines.vending.domain.commands.product.ReadAllProductsCommand;
 import com.machines.vending.domain.commands.product.ReadProductCommand;
 import com.machines.vending.domain.commands.product.UpdateProductCommand;
+import com.machines.vending.domain.models.IdInfo;
 import com.machines.vending.domain.models.Product;
 import com.machines.vending.domain.models.ProductItem;
 import com.machines.vending.domain.models.Role;
@@ -40,8 +41,8 @@ public class ProductController extends BaseController {
 
     @PostMapping()
     @ResponseStatus(CREATED)
-    public Product createProduct(@RequestHeader(TOKEN_KEY) String token,
-                                 @RequestBody Product product) throws Exception {
+    public IdInfo createProduct(@RequestHeader(TOKEN_KEY) String token,
+                                @RequestBody Product product) throws Exception {
         final Integer userId = checkRights(token, Role.SELLER);
         return createProductCommand.execute(Product.builder()
                 .sellerId(userId)

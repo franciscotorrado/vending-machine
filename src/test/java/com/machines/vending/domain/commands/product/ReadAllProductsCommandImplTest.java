@@ -1,6 +1,7 @@
 package com.machines.vending.domain.commands.product;
 
 import com.machines.vending.domain.models.Product;
+import com.machines.vending.domain.models.ProductItem;
 import com.machines.vending.infrastructure.persistence.entities.ProductEntity;
 import com.machines.vending.infrastructure.persistence.repositories.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,13 +44,12 @@ class ReadAllProductsCommandImplTest {
                         .cost(TWENTY).sellerId(10).amountAvailable(12).build()));
 
         //when
-        final List<Product> storedProducts = readAllProductsCommand.execute();
+        final List<ProductItem> storedProducts = readAllProductsCommand.execute();
 
         //then
         assertThat(storedProducts.size()).isEqualTo(1);
         assertThat(storedProducts.get(0).getId()).isEqualTo(id);
         assertThat(storedProducts.get(0).getProductName()).isEqualTo(productName);
-        assertThat(storedProducts.get(0).getSellerId()).isEqualTo(10);
         assertThat(storedProducts.get(0).getAmountAvailable()).isEqualTo(12);
         assertThat(storedProducts.get(0).getCost()).isEqualTo(TWENTY);
     }

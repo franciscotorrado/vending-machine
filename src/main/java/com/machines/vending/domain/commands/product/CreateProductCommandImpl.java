@@ -3,6 +3,7 @@ package com.machines.vending.domain.commands.product;
 import com.machines.vending.domain.exceptions.product.CreateProductWithGivenIdException;
 import com.machines.vending.domain.exceptions.product.NotValidProductCostException;
 import com.machines.vending.domain.exceptions.product.NotValidProductNameException;
+import com.machines.vending.domain.models.IdInfo;
 import com.machines.vending.domain.models.Product;
 import com.machines.vending.infrastructure.persistence.entities.ProductEntity;
 import com.machines.vending.infrastructure.persistence.mappers.ProductMapper;
@@ -18,7 +19,7 @@ public class CreateProductCommandImpl implements CreateProductCommand {
     private final ProductRepository productRepository;
 
     @Override
-    public Product execute(final Product product) throws NotValidProductCostException, NotValidProductNameException, CreateProductWithGivenIdException {
+    public IdInfo execute(final Product product) throws NotValidProductCostException, NotValidProductNameException, CreateProductWithGivenIdException {
         checkIsNew(product);
         product.validate();
 
@@ -26,7 +27,7 @@ public class CreateProductCommandImpl implements CreateProductCommand {
 
         final ProductEntity createdProduct = productRepository.save(productEntity);
 
-        return Product.builder().id(createdProduct.getId()).build();
+        return IdInfo.builder().id(createdProduct.getId()).build();
     }
 
     private void checkIsNew(final Product product) throws CreateProductWithGivenIdException {

@@ -3,6 +3,7 @@ package com.machines.vending.domain.commands.product;
 import com.machines.vending.domain.exceptions.product.CreateProductWithGivenIdException;
 import com.machines.vending.domain.exceptions.product.NotValidProductCostException;
 import com.machines.vending.domain.exceptions.product.NotValidProductNameException;
+import com.machines.vending.domain.models.IdInfo;
 import com.machines.vending.domain.models.Product;
 import com.machines.vending.infrastructure.persistence.entities.ProductEntity;
 import com.machines.vending.infrastructure.persistence.repositories.ProductRepository;
@@ -56,7 +57,7 @@ class CreateProductCommandImplTest {
         when(productRepository.save(any())).thenReturn(ProductEntity.builder().id(id).build());
 
         //when
-        final Product createdProduct = createProductCommand.execute(productToCreate);
+        final IdInfo createdProduct = createProductCommand.execute(productToCreate);
 
         //then
         assertThat(createdProduct.getId()).isEqualTo(id);
