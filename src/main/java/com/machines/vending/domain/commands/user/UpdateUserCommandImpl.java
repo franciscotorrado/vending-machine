@@ -1,10 +1,8 @@
 package com.machines.vending.domain.commands.user;
 
 import com.machines.vending.domain.exceptions.role.InvalidRoleException;
-import com.machines.vending.domain.exceptions.user.CreateUserWithGivenIdException;
 import com.machines.vending.domain.exceptions.user.InvalidPasswordException;
 import com.machines.vending.domain.exceptions.user.InvalidUsernameException;
-import com.machines.vending.domain.models.Role;
 import com.machines.vending.domain.models.User;
 import com.machines.vending.infrastructure.persistence.entities.UserEntity;
 import com.machines.vending.infrastructure.persistence.mappers.UserMapper;
@@ -12,27 +10,17 @@ import com.machines.vending.infrastructure.persistence.repositories.UserReposito
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static java.util.Objects.isNull;
-
 @Service
 @AllArgsConstructor
-public class CreateUserCommandImpl implements CreateUserCommand {
+public class UpdateUserCommandImpl implements UpdateUserCommand {
     private final UserRepository userRepository;
 
     @Override
-    public void execute(final User user) throws InvalidPasswordException, InvalidUsernameException, InvalidRoleException, CreateUserWithGivenIdException {
-        checkIsNew(user);
+    public void execute(final User user) throws InvalidPasswordException, InvalidUsernameException, InvalidRoleException {
         User.validate(user);
-        Role.validate(user.getRole());
 
         final UserEntity userEntity = UserMapper.fromModel(user).toEntity();
 
-        userRepository.save(userEntity);
-    }
-
-    private void checkIsNew(final User user) throws CreateUserWithGivenIdException {
-        if (!isNull(user.getId())) {
-            throw new CreateUserWithGivenIdException();
-        }
+        userRepository.update(userEntity.getId(), userEntity.getUsername(), userEntity.getPassword());
     }
 }

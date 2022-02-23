@@ -27,6 +27,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .authorizeRequests()
                 .antMatchers("/swagger-ui/**","/v3/api-docs/**").permitAll()
+                .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/user").permitAll()
                 .antMatchers("/deposit","/reset").hasRole(Role.BUYER.name())
@@ -45,6 +46,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.httpBasic().authenticationEntryPoint(authenticationEntryPoint);
 
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        httpSecurity.headers().frameOptions().sameOrigin();
     }
 
     @Bean

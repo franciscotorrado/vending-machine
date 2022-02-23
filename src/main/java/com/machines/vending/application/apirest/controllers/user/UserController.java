@@ -1,17 +1,22 @@
 package com.machines.vending.application.apirest.controllers.user;
 
+import com.machines.vending.application.apirest.controllers.BaseController;
 import com.machines.vending.domain.commands.user.CreateUserCommand;
 import com.machines.vending.domain.commands.user.DeleteUserCommand;
+import com.machines.vending.domain.commands.user.ReadUserCommand;
+import com.machines.vending.domain.commands.user.UpdateUserCommand;
 import com.machines.vending.domain.exceptions.PositiveDepositAvailableException;
 import com.machines.vending.domain.exceptions.role.InvalidRoleException;
 import com.machines.vending.domain.exceptions.user.CreateUserWithGivenIdException;
 import com.machines.vending.domain.exceptions.user.InvalidPasswordException;
 import com.machines.vending.domain.exceptions.user.InvalidUsernameException;
+import com.machines.vending.domain.exceptions.user.UserNotFoundException;
 import com.machines.vending.domain.models.User;
-import com.machines.vending.infrastructure.session.TokenServer;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,10 +29,11 @@ import static org.springframework.http.HttpStatus.OK;
 @AllArgsConstructor
 @RestController
 @RequestMapping(value = "/user")
-public class UserController {
-    private static final String TOKEN_KEY = "Authorization";
+public class UserController extends BaseController {
     private final CreateUserCommand createUserCommand;
     private DeleteUserCommand deleteUserCommand;
+    private ReadUserCommand readUserCommand;
+    private UpdateUserCommand updateUserCommand;
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     @ResponseStatus(CREATED)
@@ -38,8 +44,23 @@ public class UserController {
     @DeleteMapping()
     @ResponseStatus(OK)
     public void deleteUser(@RequestHeader(TOKEN_KEY) String token) throws PositiveDepositAvailableException {
-        final Integer[] userId = new Integer[1];
-        TokenServer.getUserId(token).ifPresent(id -> userId[0] = id);
+        final Integer[] userId = getUserInformationFromToken(token);
         deleteUserCommand.execute(User.builder().id(userId[0]).build());
     }
+
+    @GetMapping(produces = "application/json")
+    @ResponseStatus(OK)
+    public void readUser(@RequestHeader(TOKEN_KEY) String token) throws UserNotFoundException {
+        final Integer[] userId = getUserInformationFromToken(token);
+        readUserCommand.execute(User.builder().id(userId[0]).build());
+    }
+
+    @PutMapping(consumes = "application/json")
+    @ResponseStatus(OK)
+    public void updateUser(@RequestHeader(TOKEN_KEY) String token,
+                           @RequestBody User user) throws InvalidPasswordException, InvalidRoleException, InvalidUsernameException {
+        final Integer[] userId = getUserInformationFromToken(token);
+        updateUserCommand.execute(User.builder().id(userId[0]).username(user.getUsername()).password(user.getPassword()).build());
+    }
+
 }
