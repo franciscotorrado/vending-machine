@@ -10,12 +10,15 @@ import com.machines.vending.infrastructure.persistence.repositories.UserReposito
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 @AllArgsConstructor
 public class UpdateUserCommandImpl implements UpdateUserCommand {
     private final UserRepository userRepository;
 
     @Override
+    @Transactional
     public void execute(final User user) throws InvalidPasswordException, InvalidUsernameException, InvalidRoleException {
         User.validate(user);
 

@@ -11,6 +11,8 @@ import com.machines.vending.infrastructure.persistence.repositories.ProductRepos
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 import static java.util.Objects.isNull;
 
 @Service
@@ -19,6 +21,7 @@ public class CreateProductCommandImpl implements CreateProductCommand {
     private final ProductRepository productRepository;
 
     @Override
+    @Transactional
     public IdInfo execute(final Product product) throws NotValidProductCostException, NotValidProductNameException, CreateProductWithGivenIdException {
         checkIsNew(product);
         product.validate();

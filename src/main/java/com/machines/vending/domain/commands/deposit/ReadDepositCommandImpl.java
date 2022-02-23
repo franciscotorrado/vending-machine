@@ -7,12 +7,15 @@ import com.machines.vending.infrastructure.persistence.repositories.DepositRepos
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 @AllArgsConstructor
 public class ReadDepositCommandImpl implements ReadDepositCommand {
     private final DepositRepository depositRepository;
 
     @Override
+    @Transactional
     public DepositInfo read(final Deposit deposit) {
         return DepositInfo.builder()
                 .availableAmount(depositRepository.findByBuyerId(deposit.getBuyerId())

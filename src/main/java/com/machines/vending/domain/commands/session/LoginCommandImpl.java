@@ -1,7 +1,7 @@
 package com.machines.vending.domain.commands.session;
 
-import com.machines.vending.domain.exceptions.session.ConcurrentSessionsException;
 import com.machines.vending.domain.exceptions.security.InvalidUsernameOrPasswordException;
+import com.machines.vending.domain.exceptions.session.ConcurrentSessionsException;
 import com.machines.vending.domain.models.Role;
 import com.machines.vending.infrastructure.persistence.entities.UserEntity;
 import com.machines.vending.infrastructure.persistence.repositories.UserRepository;

@@ -1,7 +1,7 @@
 package com.machines.vending.application.apirest.controllers.session;
 
-import com.machines.vending.domain.exceptions.session.ConcurrentSessionsException;
 import com.machines.vending.domain.exceptions.security.InvalidUsernameOrPasswordException;
+import com.machines.vending.domain.exceptions.session.ConcurrentSessionsException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;

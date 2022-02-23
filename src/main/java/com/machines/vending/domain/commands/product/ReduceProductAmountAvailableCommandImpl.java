@@ -9,11 +9,14 @@ import com.machines.vending.infrastructure.persistence.repositories.ProductRepos
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 @AllArgsConstructor
 public class ReduceProductAmountAvailableCommandImpl implements ReduceProductAmountAvailableCommand {
     private final ProductRepository productRepository;
 
+    @Transactional
     @Override
     public void execute(final int productId,
                         final int amountToReduce) throws NotEnoughProductAmountAvailableException, ProductNotFoundException {

@@ -8,12 +8,15 @@ import com.machines.vending.infrastructure.persistence.repositories.DepositRepos
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 @AllArgsConstructor
 public class ResetDepositCommandImpl implements ResetDepositCommand {
     private final DepositRepository depositRepository;
 
     @Override
+    @Transactional
     public DepositInfo reset(final Deposit deposit) {
 
         int amount = depositRepository.findById(deposit.getBuyerId()).map(d -> {

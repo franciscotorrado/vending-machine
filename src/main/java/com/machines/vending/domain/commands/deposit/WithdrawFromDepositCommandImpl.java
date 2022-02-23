@@ -7,6 +7,8 @@ import com.machines.vending.infrastructure.persistence.repositories.DepositRepos
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 @AllArgsConstructor
 public class WithdrawFromDepositCommandImpl implements WithdrawFromDepositCommand {
@@ -14,6 +16,7 @@ public class WithdrawFromDepositCommandImpl implements WithdrawFromDepositComman
     private final DepositRepository depositRepository;
 
     @Override
+    @Transactional
     public FromDepositCommand withdraw(final int amount) {
         return depositToBeUpdated -> {
             final int buyerId = depositToBeUpdated.getBuyerId();

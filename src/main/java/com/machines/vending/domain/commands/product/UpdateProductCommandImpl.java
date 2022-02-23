@@ -10,11 +10,14 @@ import com.machines.vending.infrastructure.persistence.repositories.ProductRepos
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 @AllArgsConstructor
 public class UpdateProductCommandImpl implements UpdateProductCommand {
     private final ProductRepository productRepository;
 
+    @Transactional
     @Override
     public void execute(final Product product) throws NotValidProductCostException, NotValidProductNameException, ProductNotFoundException {
         product.validate();

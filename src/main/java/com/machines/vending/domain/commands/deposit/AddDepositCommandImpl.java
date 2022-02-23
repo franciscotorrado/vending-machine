@@ -10,6 +10,8 @@ import com.machines.vending.infrastructure.persistence.repositories.DepositRepos
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 @AllArgsConstructor
 public class AddDepositCommandImpl implements AddDepositCommand {
@@ -17,6 +19,7 @@ public class AddDepositCommandImpl implements AddDepositCommand {
     private final DepositRepository depositRepository;
 
     @Override
+    @Transactional
     public ToDepositCommand add(final int coin) throws InvalidCoinException {
         Coin.validate(coin);
 
