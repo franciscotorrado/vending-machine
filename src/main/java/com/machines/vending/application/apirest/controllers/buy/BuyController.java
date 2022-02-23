@@ -2,6 +2,7 @@ package com.machines.vending.application.apirest.controllers.buy;
 
 import com.machines.vending.application.apirest.controllers.BaseController;
 import com.machines.vending.domain.commands.buy.BuyCommand;
+import com.machines.vending.domain.models.Invoice;
 import com.machines.vending.domain.models.Purchase;
 import com.machines.vending.domain.models.Role;
 import com.machines.vending.domain.models.security.UserSessionDetails;
@@ -25,9 +26,9 @@ public class BuyController extends BaseController {
 
     @PostMapping(value = "/buy")
     @ResponseStatus(OK)
-    public void buyProduct(@RequestHeader(TOKEN_KEY) String token,
-                           @RequestBody Purchase purchase) throws Exception {
+    public Invoice buyProduct(@RequestHeader(TOKEN_KEY) String token,
+                              @RequestBody Purchase purchase) throws Exception {
         final UserSessionDetails user = checkRights(token, Role.BUYER);
-        buyCommand.execute(user.getId(), purchase);
+        return buyCommand.execute(user.getId(), purchase);
     }
 }

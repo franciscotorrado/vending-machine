@@ -63,6 +63,7 @@ public class ProductController extends BaseController {
         updateProductCommand.execute(Product.builder()
                 .id(id)
                 .sellerId(user.getId())
+                .productName(product.getProductName())
                 .cost(product.getCost())
                 .amountAvailable(product.getAmountAvailable())
                 .build());

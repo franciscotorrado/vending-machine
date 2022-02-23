@@ -2,6 +2,7 @@ package com.machines.vending.domain.commands.buy;
 
 import com.machines.vending.domain.commands.deposit.FromDepositCommand;
 import com.machines.vending.domain.commands.deposit.WithdrawFromDepositCommand;
+import com.machines.vending.domain.commands.product.ReadProductCommand;
 import com.machines.vending.domain.commands.product.ReduceProductAmountAvailableCommand;
 import com.machines.vending.domain.exceptions.deposit.NotEnoughDepositException;
 import com.machines.vending.domain.exceptions.product.NotEnoughProductAmountAvailableException;
@@ -27,6 +28,7 @@ class BuyCommandImplTest {
 
     private final WithdrawFromDepositCommand withdrawFromDepositCommand = Mockito.mock(WithdrawFromDepositCommand.class);
     private final ReduceProductAmountAvailableCommand reduceProductAmountAvailableCommand = Mockito.mock(ReduceProductAmountAvailableCommand.class);
+    private final ReadProductCommand readProductCommand = Mockito.mock(ReadProductCommand.class);
     private final FromDepositCommand fromDepositCommand = Mockito.mock(FromDepositCommand.class);
     private BuyCommand buyCommand;
     private int productId;
@@ -48,7 +50,7 @@ class BuyCommandImplTest {
 
         doAnswer(invocation -> null).when(reduceProductAmountAvailableCommand).execute(productId, amountToBuy);
 
-        buyCommand = new BuyCommandImpl(withdrawFromDepositCommand, reduceProductAmountAvailableCommand);
+        buyCommand = new BuyCommandImpl(withdrawFromDepositCommand, reduceProductAmountAvailableCommand, readProductCommand);
 
         // when
         buyCommand.execute(buyerId, Purchase.builder().productId(productId).amount(amountToBuy).build());
@@ -68,7 +70,7 @@ class BuyCommandImplTest {
         doThrow(NotEnoughDepositException.class).when(fromDepositCommand).from(any());
         doAnswer(invocation -> fromDepositCommand).when(withdrawFromDepositCommand).withdraw(amountToBuy);
 
-        buyCommand = new BuyCommandImpl(withdrawFromDepositCommand, reduceProductAmountAvailableCommand);
+        buyCommand = new BuyCommandImpl(withdrawFromDepositCommand, reduceProductAmountAvailableCommand, readProductCommand);
 
         final Purchase purchase = Purchase.builder().productId(productId).amount(amountToBuy).build();
 
@@ -85,7 +87,7 @@ class BuyCommandImplTest {
 
         doThrow(NotEnoughProductAmountAvailableException.class).when(reduceProductAmountAvailableCommand).execute(productId, amountToBuy);
 
-        buyCommand = new BuyCommandImpl(withdrawFromDepositCommand, reduceProductAmountAvailableCommand);
+        buyCommand = new BuyCommandImpl(withdrawFromDepositCommand, reduceProductAmountAvailableCommand, readProductCommand);
 
         final Purchase purchase = Purchase.builder().productId(productId).amount(amountToBuy).build();
 
