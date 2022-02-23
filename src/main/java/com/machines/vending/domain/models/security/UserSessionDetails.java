@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 public class UserSessionDetails {
-    private final Integer userId;
+    private final Integer id;
     private final Role role;
 }

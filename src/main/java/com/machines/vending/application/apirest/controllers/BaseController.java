@@ -12,11 +12,11 @@ import java.util.Arrays;
 public class BaseController {
     protected static final String TOKEN_KEY = "Authorization";
 
-    protected Integer checkRights(final String token,
-                                  final Role... roles) throws NoActiveSessionException, UserAccessDeniedException {
+    protected UserSessionDetails checkRights(final String token,
+                                             final Role... roles) throws NoActiveSessionException, UserAccessDeniedException {
         final UserSessionDetails userSessionDetails = TokenServer.getUserSessionDetails(token.replace("Bearer ", "")).orElseThrow(NoActiveSessionException::new);
         if (Arrays.stream(roles).anyMatch(r -> r.equals(userSessionDetails.getRole()))) {
-            return userSessionDetails.getUserId();
+            return userSessionDetails;
         } else {
             throw new UserAccessDeniedException();
         }

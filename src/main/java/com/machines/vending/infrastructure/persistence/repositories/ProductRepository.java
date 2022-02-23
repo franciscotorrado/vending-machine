@@ -6,8 +6,13 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ProductRepository extends JpaRepository<ProductEntity, Integer> {
+
+    List<ProductEntity> findBySellerId(int sellerId);
+
     @Modifying
     @Query(value = "UPDATE ProductEntity p SET p.amountAvailable = :amountAvailable WHERE p.id = :productId")
     void updateAmountAvailable(int productId,

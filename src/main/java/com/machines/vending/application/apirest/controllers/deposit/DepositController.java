@@ -7,6 +7,7 @@ import com.machines.vending.domain.commands.deposit.ResetDepositCommand;
 import com.machines.vending.domain.models.Deposit;
 import com.machines.vending.domain.models.DepositInfo;
 import com.machines.vending.domain.models.Role;
+import com.machines.vending.domain.models.security.UserSessionDetails;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,21 +32,21 @@ public class DepositController extends BaseController {
     @ResponseStatus(OK)
     public void addDeposit(@RequestHeader(TOKEN_KEY) String token,
                            @RequestBody Deposit deposit) throws Exception {
-        final Integer userId = checkRights(token, Role.BUYER);
-        addDepositCommand.add(deposit.getAmount()).to(Deposit.builder().buyerId(userId).build());
+        final UserSessionDetails user = checkRights(token, Role.BUYER);
+        addDepositCommand.add(deposit.getAmount()).to(Deposit.builder().buyerId(user.getId()).build());
     }
 
     @GetMapping(value = "/deposit", produces = "application/json")
     @ResponseStatus(OK)
     public DepositInfo readDeposit(@RequestHeader(TOKEN_KEY) String token) throws Exception {
-        final Integer userId = checkRights(token, Role.BUYER);
-        return readDepositCommand.read(Deposit.builder().buyerId(userId).build());
+        final UserSessionDetails user = checkRights(token, Role.BUYER);
+        return readDepositCommand.read(Deposit.builder().buyerId(user.getId()).build());
     }
 
     @PutMapping(value = "/reset", consumes = "application/json", produces = "application/json")
     @ResponseStatus(OK)
     public void resetDeposit(@RequestHeader(TOKEN_KEY) String token) throws Exception {
-        final Integer userId = checkRights(token, Role.BUYER);
-        resetDepositCommand.reset(Deposit.builder().buyerId(userId).build());
+        final UserSessionDetails user = checkRights(token, Role.BUYER);
+        resetDepositCommand.reset(Deposit.builder().buyerId(user.getId()).build());
     }
 }

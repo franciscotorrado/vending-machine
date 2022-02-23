@@ -42,7 +42,7 @@ public class TokenServer {
 
     public static void removeToken(Integer userId) {
         for (Map.Entry<String, UserSessionDetails> session : sessions.entrySet()) {
-            if (session.getValue().getUserId().equals(userId)) {
+            if (session.getValue().getId().equals(userId)) {
                 sessions.remove(session.getKey());
             }
         }
@@ -51,6 +51,6 @@ public class TokenServer {
     private static boolean isAlreadyLogged(final Integer userId) {
         return sessions.entrySet()
                 .stream()
-                .anyMatch(s -> s.getValue().getUserId().equals(userId));
+                .anyMatch(s -> s.getValue().getId().equals(userId));
     }
 }

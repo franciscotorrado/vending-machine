@@ -9,7 +9,7 @@ import com.machines.vending.domain.commands.product.UpdateProductCommand;
 import com.machines.vending.domain.models.IdInfo;
 import com.machines.vending.domain.models.Product;
 import com.machines.vending.domain.models.ProductItem;
-import com.machines.vending.domain.models.Role;
+import com.machines.vending.domain.models.security.UserSessionDetails;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static com.machines.vending.domain.models.Role.BUYER;
+import static com.machines.vending.domain.models.Role.SELLER;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -43,9 +45,9 @@ public class ProductController extends BaseController {
     @ResponseStatus(CREATED)
     public IdInfo createProduct(@RequestHeader(TOKEN_KEY) String token,
                                 @RequestBody Product product) throws Exception {
-        final Integer userId = checkRights(token, Role.SELLER);
+        final UserSessionDetails user = checkRights(token, SELLER);
         return createProductCommand.execute(Product.builder()
-                .sellerId(userId)
+                .sellerId(user.getId())
                 .productName(product.getProductName())
                 .cost(product.getCost())
                 .amountAvailable(product.getAmountAvailable())
@@ -57,10 +59,10 @@ public class ProductController extends BaseController {
     public void updateProduct(@RequestHeader(TOKEN_KEY) String token,
                               @PathVariable int id,
                               @RequestBody Product product) throws Exception {
-        final Integer userId = checkRights(token, Role.SELLER);
+        final UserSessionDetails user = checkRights(token, SELLER);
         updateProductCommand.execute(Product.builder()
                 .id(id)
-                .sellerId(userId)
+                .sellerId(user.getId())
                 .cost(product.getCost())
                 .amountAvailable(product.getAmountAvailable())
                 .build());
@@ -70,24 +72,32 @@ public class ProductController extends BaseController {
     @ResponseStatus(OK)
     public void deleteProduct(@RequestHeader(TOKEN_KEY) String token,
                               @PathVariable int id) throws Exception {
-        final Integer userId = checkRights(token, Role.SELLER);
+        final UserSessionDetails user = checkRights(token, SELLER);
         deleteProductCommand.execute(Product.builder()
                 .id(id)
-                .sellerId(userId)
+                .sellerId(user.getId())
                 .build());
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(OK)
-    public void getProduct(@PathVariable int id) throws Exception {
-        readProductCommand.execute(Product.builder()
+    public Product getProduct(@PathVariable int id) throws Exception {
+        return readProductCommand.execute(Product.builder()
                 .id(id)
                 .build());
     }
 
     @GetMapping("")
     @ResponseStatus(OK)
-    public List<ProductItem> getAllProducts() {
-        return readAllProductsCommand.execute();
+    public List<ProductItem> getAllProducts(@RequestHeader(TOKEN_KEY) String token) throws Exception {
+        final UserSessionDetails user = checkRights(token, BUYER, SELLER);
+        return readAllProductsCommand.execute(user.getId(), user.getRole());
+    }
+
+    @GetMapping("/seller")
+    @ResponseStatus(OK)
+    public List<ProductItem> getMyProducts(@RequestHeader(TOKEN_KEY) String token) throws Exception {
+        final UserSessionDetails user = checkRights(token, SELLER);
+        return readAllProductsCommand.execute(user.getId(), user.getRole());
     }
 }

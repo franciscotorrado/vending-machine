@@ -1,6 +1,5 @@
 package com.machines.vending.domain.commands.product;
 
-import com.machines.vending.domain.models.Product;
 import com.machines.vending.domain.models.ProductItem;
 import com.machines.vending.infrastructure.persistence.entities.ProductEntity;
 import com.machines.vending.infrastructure.persistence.repositories.ProductRepository;
@@ -13,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Random;
 
+import static com.machines.vending.domain.models.Role.BUYER;
 import static com.machines.vending.utils.TestAmounts.TWENTY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
@@ -26,25 +26,26 @@ class ReadAllProductsCommandImplTest {
     private ProductRepository productRepository;
 
     private int id;
+    private int userId;
     private String productName;
 
     @BeforeEach
     void setUp() {
         readAllProductsCommand = new ReadAllProductCommandImpl(productRepository);
         id = new Random().nextInt();
+        userId = new Random().nextInt();
         productName = "Fresh Water";
     }
 
     @Test
     void readProduct() {
         //given
-        final Product productToRead = Product.builder().id(id).build();
         when(productRepository.findAll()).thenReturn(
                 List.of(ProductEntity.builder().id(id).productName(productName)
                         .cost(TWENTY).sellerId(10).amountAvailable(12).build()));
 
         //when
-        final List<ProductItem> storedProducts = readAllProductsCommand.execute();
+        final List<ProductItem> storedProducts = readAllProductsCommand.execute(userId, BUYER);
 
         //then
         assertThat(storedProducts.size()).isEqualTo(1);

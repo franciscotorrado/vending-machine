@@ -4,6 +4,7 @@ import com.machines.vending.application.apirest.controllers.BaseController;
 import com.machines.vending.domain.commands.buy.BuyCommand;
 import com.machines.vending.domain.models.Purchase;
 import com.machines.vending.domain.models.Role;
+import com.machines.vending.domain.models.security.UserSessionDetails;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,9 +25,9 @@ public class BuyController extends BaseController {
 
     @PostMapping(value = "/buy")
     @ResponseStatus(OK)
-    public void addDeposit(@RequestHeader(TOKEN_KEY) String token,
+    public void buyProduct(@RequestHeader(TOKEN_KEY) String token,
                            @RequestBody Purchase purchase) throws Exception {
-        final Integer userId = checkRights(token, Role.BUYER);
-        buyCommand.execute(userId, purchase);
+        final UserSessionDetails user = checkRights(token, Role.BUYER);
+        buyCommand.execute(user.getId(), purchase);
     }
 }
