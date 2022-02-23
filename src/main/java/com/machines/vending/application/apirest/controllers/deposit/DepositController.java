@@ -2,10 +2,12 @@ package com.machines.vending.application.apirest.controllers.deposit;
 
 import com.machines.vending.application.apirest.controllers.BaseController;
 import com.machines.vending.domain.commands.deposit.AddDepositCommand;
+import com.machines.vending.domain.commands.deposit.ReadDepositCommand;
 import com.machines.vending.domain.commands.deposit.ResetDepositCommand;
 import com.machines.vending.domain.models.Deposit;
 import com.machines.vending.domain.models.Role;
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,14 +20,13 @@ import static org.springframework.http.HttpStatus.OK;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping(value = "/",
-        consumes = "application/json",
-        produces = "application/json")
+@RequestMapping(value = "/")
 public class DepositController extends BaseController {
     private final AddDepositCommand addDepositCommand;
     private final ResetDepositCommand resetDepositCommand;
+    private final ReadDepositCommand readDepositCommand;
 
-    @PostMapping(value = "/deposit")
+    @PostMapping(value = "/deposit", consumes = "application/json", produces = "application/json")
     @ResponseStatus(OK)
     public void addDeposit(@RequestHeader(TOKEN_KEY) String token,
                            @RequestBody Deposit deposit) throws Exception {
@@ -33,7 +34,14 @@ public class DepositController extends BaseController {
         addDepositCommand.add(deposit.getAmount()).to(Deposit.builder().buyerId(userId).build());
     }
 
-    @PutMapping(value = "/reset")
+    @GetMapping(value = "/deposit", produces = "application/json")
+    @ResponseStatus(OK)
+    public Deposit readDeposit(@RequestHeader(TOKEN_KEY) String token) throws Exception {
+        final Integer userId = checkRights(token, Role.BUYER);
+        return readDepositCommand.read(Deposit.builder().buyerId(userId).build());
+    }
+
+    @PutMapping(value = "/reset", consumes = "application/json", produces = "application/json")
     @ResponseStatus(OK)
     public void resetDeposit(@RequestHeader(TOKEN_KEY) String token) throws Exception {
         final Integer userId = checkRights(token, Role.BUYER);
