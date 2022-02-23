@@ -2,7 +2,7 @@ package com.machines.vending.domain.commands.session;
 
 import com.machines.vending.domain.exceptions.session.InvalidUsernameOrPassword;
 import com.machines.vending.infrastructure.persistence.repositories.UserRepository;
-import com.machines.vending.infrastructure.persistence.session.TokenServer;
+import com.machines.vending.infrastructure.session.TokenServer;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

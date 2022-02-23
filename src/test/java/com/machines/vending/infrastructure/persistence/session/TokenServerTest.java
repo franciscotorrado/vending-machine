@@ -1,5 +1,6 @@
 package com.machines.vending.infrastructure.persistence.session;
 
+import com.machines.vending.infrastructure.session.TokenServer;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;

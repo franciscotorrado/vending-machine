@@ -1,4 +1,4 @@
-package com.machines.vending.infrastructure.persistence.session;
+package com.machines.vending.infrastructure.session;
 
 import java.security.SecureRandom;
 import java.util.Base64;

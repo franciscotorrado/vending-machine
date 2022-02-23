@@ -31,9 +31,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user").permitAll()
                 .antMatchers("/deposit","/reset").hasRole(Role.BUYER.name())
                 .antMatchers("/products").permitAll()
+                .antMatchers("/login").permitAll()
                 .anyRequest().authenticated()
-                .and()
-                .formLogin().loginPage("/login/**").permitAll()
                 .and()
                 .logout().permitAll();
 

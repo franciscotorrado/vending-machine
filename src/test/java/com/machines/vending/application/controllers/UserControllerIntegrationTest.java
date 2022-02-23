@@ -6,13 +6,9 @@ import com.machines.vending.infrastructure.persistence.entities.UserEntity;
 import com.machines.vending.infrastructure.persistence.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.mock.mockito.MockBean;
-
-import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -20,19 +16,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class UserControllerIntegrationTest extends AuthenticationBaseTest {
 
-    @MockBean
+    @Autowired
     public UserRepository userRepository;
 
     @BeforeEach
     public void setUp() {
-        when(userRepository.findByUsername(username))
-                .thenReturn(Optional.of(
-                        UserEntity.builder().id(userId).username(username)
-                                .password(password).build()));
-
-        when(userRepository.save(any()))
-                .thenReturn(UserEntity.builder().id(userId).username(username)
-                        .password(password).build());
+        userRepository.save(UserEntity.builder().username(username).password(password).role(Role.BUYER.name()).build());
     }
 
     @Test
