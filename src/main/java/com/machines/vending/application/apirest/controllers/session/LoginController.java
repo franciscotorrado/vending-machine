@@ -17,8 +17,8 @@ public class LoginController {
     private final LoginCommand loginCommand;
 
     @PostMapping("/login")
-    public String login(@RequestParam("username") final String username,
-                        @RequestParam("password") final String password) throws InvalidUsernameOrPassword, ConcurrentSessionsException {
+    public String login(@RequestParam(value = "username") final String username,
+                        @RequestParam(value = "password") final String password) throws InvalidUsernameOrPassword, ConcurrentSessionsException {
         return loginCommand.login(username, password);
     }
 }
