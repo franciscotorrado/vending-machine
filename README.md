@@ -87,9 +87,17 @@ You can run application and tests with these commands (Using Gradle scripts in t
 
 Tests:
 
+``
 gradlew test
+``
 
 Run:
 
+``
 gradlew bootRun
+``
+
+H2 Database Console:
+
+http://localhost:8080/h2-console
 
