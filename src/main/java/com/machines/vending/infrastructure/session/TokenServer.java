@@ -5,13 +5,12 @@ import com.machines.vending.domain.models.security.UserSessionDetails;
 
 import java.security.SecureRandom;
 import java.util.Base64;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class TokenServer {
-    private final static Map<String, UserSessionDetails> sessions = Collections.synchronizedMap(new HashMap<>());
+    private final static Map<String, UserSessionDetails> sessions = new ConcurrentHashMap<>();
 
     private static final SecureRandom secureRandom = new SecureRandom();
     private static final Base64.Encoder base64Encoder = Base64.getUrlEncoder();
@@ -40,7 +39,7 @@ public class TokenServer {
                 .map(Map.Entry::getValue);
     }
 
-    public static synchronized void removeToken(Integer userId) {
+    public static void removeToken(Integer userId) {
         for (Map.Entry<String, UserSessionDetails> session : sessions.entrySet()) {
             if (session.getValue().getId().equals(userId)) {
                 sessions.remove(session.getKey());
