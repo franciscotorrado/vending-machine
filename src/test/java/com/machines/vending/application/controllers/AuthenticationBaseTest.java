@@ -2,8 +2,8 @@ package com.machines.vending.application.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.machines.vending.Main;
-import com.machines.vending.domain.models.security.AuthenticationRequest;
-import com.machines.vending.domain.models.security.AuthenticationResponse;
+import com.machines.vending.domain.models.security.LoginRequest;
+import com.machines.vending.domain.models.security.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,14 +27,14 @@ public class AuthenticationBaseTest {
     public MockMvc mockMvc;
 
     protected String authToken() throws Exception {
-        final AuthenticationRequest authenticationRequest = new AuthenticationRequest(username, password);
+        final LoginRequest loginRequest = new LoginRequest(username, password);
         return objectMapper.readValue(mockMvc.perform(
                         post("/login")
                                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                                .content(objectMapper.writeValueAsString(authenticationRequest)))
+                                .content(objectMapper.writeValueAsString(loginRequest)))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()
-                .getContentAsString(), AuthenticationResponse.class).getToken();
+                .getContentAsString(), LoginResponse.class).getToken();
     }
 }

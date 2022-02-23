@@ -1,8 +1,8 @@
 package com.machines.vending.application.apirest.controllers.session;
 
 import com.machines.vending.domain.commands.session.LoginCommand;
-import com.machines.vending.domain.models.security.AuthenticationRequest;
-import com.machines.vending.domain.models.security.AuthenticationResponse;
+import com.machines.vending.domain.models.security.LoginRequest;
+import com.machines.vending.domain.models.security.LoginResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,10 +19,10 @@ public class LoginController {
     private final LoginCommand loginCommand;
 
     @PostMapping("/login")
-    public AuthenticationResponse createToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
-        final String username = authenticationRequest.getUsername();
-        final String password = authenticationRequest.getPassword();
+    public LoginResponse createToken(@RequestBody LoginRequest loginRequest) throws Exception {
+        final String username = loginRequest.getUsername();
+        final String password = loginRequest.getPassword();
         String token = loginCommand.login(username, password);
-        return new AuthenticationResponse(token);
+        return new LoginResponse(token);
     }
 }
