@@ -19,7 +19,7 @@ public class ResetDepositCommandImpl implements ResetDepositCommand {
     @Transactional
     public DepositInfo reset(final Deposit deposit) {
 
-        int amount = depositRepository.findById(deposit.getBuyerId()).map(d -> {
+        int amount = depositRepository.findByBuyerId(deposit.getBuyerId()).map(d -> {
             deposit.reset();
             return depositRepository.save(DepositMapper.fromModel(deposit).toEntity());
         }).orElse(DepositEntity.builder().build()).getAmount();
