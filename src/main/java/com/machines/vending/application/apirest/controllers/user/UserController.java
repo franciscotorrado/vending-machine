@@ -7,6 +7,7 @@ import com.machines.vending.domain.commands.user.ReadUserCommand;
 import com.machines.vending.domain.commands.user.UpdateUserCommand;
 import com.machines.vending.domain.models.Role;
 import com.machines.vending.domain.models.User;
+import com.machines.vending.domain.models.security.LoginRequest;
 import com.machines.vending.domain.models.security.UserSessionDetails;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,11 +38,18 @@ public class UserController extends BaseController {
         createUserCommand.execute(user);
     }
 
-    @DeleteMapping()
+    @DeleteMapping(consumes = "application/json")
     @ResponseStatus(OK)
-    public void deleteUser(@RequestHeader(TOKEN_KEY) String token) throws Exception {
+    public void deleteUser(@RequestHeader(TOKEN_KEY) String token,
+                           @RequestBody LoginRequest loginRequest) throws Exception {
         final UserSessionDetails user = checkRights(token, Role.SELLER, Role.BUYER);
-        deleteUserCommand.execute(User.builder().id(user.getId()).build());
+        final String username = loginRequest.getUsername();
+        final String password = loginRequest.getPassword();
+        deleteUserCommand.execute(User.builder()
+                .id(user.getId())
+                .username(username)
+                .password(password)
+                .build());
     }
 
     @GetMapping(produces = "application/json")

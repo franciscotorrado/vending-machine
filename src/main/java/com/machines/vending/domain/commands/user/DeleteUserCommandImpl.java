@@ -23,6 +23,6 @@ public class DeleteUserCommandImpl implements DeleteUserCommand {
         if (depositAmount > 0) {
             throw new PositiveDepositAvailableException();
         }
-        userRepository.deleteById(user.getId());
+        userRepository.deleteByIdAndUsernameAndPassword(user.getId(), user.getUsername(), user.getPassword());
     }
 }

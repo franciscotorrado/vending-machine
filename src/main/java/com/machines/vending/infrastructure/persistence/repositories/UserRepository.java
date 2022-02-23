@@ -18,4 +18,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     void update(@Param("id") int id,
                 @Param("username") String username,
                 @Param("password") String password);
+
+    void deleteByIdAndUsernameAndPassword(int id,
+                                          String username,
+                                          String password);
 }
