@@ -23,9 +23,9 @@ import javax.persistence.Table;
 public class DepositEntity extends DBEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @Column(name = "id", unique = true)
     private Integer id;
-    @Column(name = "buyerId")
+    @Column(name = "buyerId", unique = true)
     private int buyerId;
     @Column(name = "amount")
     private int amount;

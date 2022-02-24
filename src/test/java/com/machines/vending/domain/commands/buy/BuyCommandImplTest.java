@@ -8,6 +8,7 @@ import com.machines.vending.domain.exceptions.deposit.NotEnoughDepositException;
 import com.machines.vending.domain.exceptions.product.NotEnoughProductAmountAvailableException;
 import com.machines.vending.domain.exceptions.product.ProductNotFoundException;
 import com.machines.vending.domain.models.Deposit;
+import com.machines.vending.domain.models.Product;
 import com.machines.vending.domain.models.Purchase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,12 +18,14 @@ import org.mockito.Mockito;
 import java.util.Random;
 
 import static com.machines.vending.utils.TestAmounts.THREE;
+import static com.machines.vending.utils.TestAmounts.TWENTY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class BuyCommandImplTest {
 
@@ -65,8 +68,10 @@ class BuyCommandImplTest {
     }
 
     @Test
-    void shouldThrowNotEnoughDepositException_whenDepositIsNotEnough() throws NotEnoughDepositException {
+    void shouldThrowNotEnoughDepositException_whenDepositIsNotEnough() throws NotEnoughDepositException, ProductNotFoundException {
         // given
+        final Product product = Product.builder().id(productId).cost(TWENTY).amountAvailable(10).build();
+        when(readProductCommand.execute(any())).thenReturn(product);
         doThrow(NotEnoughDepositException.class).when(fromDepositCommand).from(any());
         doAnswer(invocation -> fromDepositCommand).when(withdrawFromDepositCommand).withdraw(amountToBuy);
 
@@ -82,6 +87,8 @@ class BuyCommandImplTest {
     @Test
     void shouldThrowNotEnoughProductAmountAvailableException_whenStockIsNotEnough() throws ProductNotFoundException, NotEnoughDepositException, NotEnoughProductAmountAvailableException {
         // given
+        final Product product = Product.builder().id(productId).cost(TWENTY).amountAvailable(0).build();
+        when(readProductCommand.execute(any())).thenReturn(product);
         doAnswer(invocation -> null).when(fromDepositCommand).from(any());
         doAnswer(invocation -> fromDepositCommand).when(withdrawFromDepositCommand).withdraw(amountToBuy);
 

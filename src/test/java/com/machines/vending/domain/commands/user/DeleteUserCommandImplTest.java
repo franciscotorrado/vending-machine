@@ -31,30 +31,34 @@ class DeleteUserCommandImplTest {
     private ReadDepositCommand readDepositCommand;
 
     private int id;
+    private String username;
+    private String password;
 
     @BeforeEach
     void setUp() {
         deleteUserCommand = new DeleteUserCommandImpl(userRepository, readDepositCommand);
         id = new Random().nextInt();
+        username = "client";
+        password = "dsfser$4TT";
     }
 
     @Test
     void deleteUser() throws PositiveDepositAvailableException {
         //given
-        final User userToDelete = User.builder().id(id).build();
+        final User userToDelete = User.builder().id(id).username(username).password(password).build();
         when(readDepositCommand.read(any())).thenReturn(DepositInfo.builder().availableAmount(ZERO).build());
 
         //when
         deleteUserCommand.execute(userToDelete);
 
         //then
-        verify(userRepository).deleteById(id);
+        verify(userRepository).deleteByIdAndUsernameAndPassword(id, username, password);
     }
 
     @Test
     void errorWhenUserDepositIsPositive() {
         //given
-        final User userToDelete = User.builder().id(id).build();
+        final User userToDelete = User.builder().id(id).username(username).password(password).build();
         when(readDepositCommand.read(any())).thenReturn(DepositInfo.builder().availableAmount(TEN).build());
 
         //when

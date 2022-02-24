@@ -23,9 +23,9 @@ import javax.persistence.Table;
 public class ProductEntity extends DBEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @Column(name = "id", unique = true)
     private Integer id;
-    @Column(name = "productName")
+    @Column(name = "productName", unique = true)
     private String productName;
     @Column(name = "cost")
     private int cost;

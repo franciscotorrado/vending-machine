@@ -2,11 +2,13 @@ package com.machines.vending.application.controllers;
 
 import com.machines.vending.domain.models.Role;
 import com.machines.vending.domain.models.User;
+import com.machines.vending.domain.models.security.LoginRequest;
 import com.machines.vending.infrastructure.persistence.entities.UserEntity;
 import com.machines.vending.infrastructure.persistence.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -14,6 +16,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class UserControllerIntegrationTest extends AuthenticationBaseTest {
@@ -48,12 +51,15 @@ public class UserControllerIntegrationTest extends AuthenticationBaseTest {
     @Test
     void shouldDeleteUser() throws Exception {
         // given
+        final LoginRequest userCredentials = new LoginRequest(username, password);
         userRepository.save(UserEntity.builder().username(username).password(password).role(Role.BUYER.name()).build());
         final String url = "/user";
         // when
         String response = mockMvc.perform(
                         delete(url)
-                                .header("Authorization", authToken()))
+                                .header("Authorization", authToken())
+                                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                                .content(objectMapper.writeValueAsString(userCredentials)))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()
@@ -89,16 +95,19 @@ public class UserControllerIntegrationTest extends AuthenticationBaseTest {
         userRepository.save(UserEntity.builder().username(username).password(password).role(Role.BUYER.name()).build());
         final String url = "/user";
         // when
-        String response = mockMvc.perform(
-                        get(url)
-                                .contentType(APPLICATION_JSON)
-                                .header("Authorization", authToken()))
-                .andExpect(status().isOk())
-                .andReturn()
-                .getResponse()
-                .getContentAsString();
         // then
-        assertThat(response).isNotEmpty();
+        mockMvc.perform(
+                    get(url)
+                            .contentType(APPLICATION_JSON)
+                            .header("Authorization", authToken()))
+                   .andExpect(status().isOk())
+                   .andExpect(content().json(
+                    "{\n" +
+                            "\"username\":\"" + username + "\",\n" +
+                            "\"id\": 1,\n" +
+                            "\"password\":\"" + password + "\",\n" +
+                            "\"role\":\"BUYER\"\n" +
+                            "}"));
     }
 
 }

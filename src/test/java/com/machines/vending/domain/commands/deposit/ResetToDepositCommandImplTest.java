@@ -17,6 +17,7 @@ import static com.machines.vending.utils.TestAmounts.FIVE;
 import static com.machines.vending.utils.TestAmounts.ZERO;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -43,15 +44,17 @@ class ResetToDepositCommandImplTest {
         // given
         final Deposit deposit = Deposit.builder().id(id).buyerId(buyerId).amount(FIVE).build();
         final DepositEntity depositEntity = DepositEntity.builder().id(id).buyerId(buyerId).amount(FIVE).build();
+        final DepositEntity updateDeposit = DepositEntity.builder().id(id).buyerId(buyerId).amount(ZERO).build();
 
-        when(depositRepository.findById(any())).thenReturn(Optional.of(depositEntity));
+        when(depositRepository.findByBuyerId(anyInt())).thenReturn(Optional.of(depositEntity));
+        when(depositRepository.save(any())).thenReturn(updateDeposit);
 
         // when
         resetDepositCommand.reset(deposit);
 
         // then
         final ArgumentCaptor<DepositEntity> depositEntityCapture = ArgumentCaptor.forClass(DepositEntity.class);
-        verify(depositRepository).findById(buyerId);
+        verify(depositRepository).findByBuyerId(buyerId);
         verify(depositRepository).save(depositEntityCapture.capture());
         final DepositEntity updatedDepositEntity = depositEntityCapture.getValue();
         assertThat(updatedDepositEntity.getBuyerId()).isEqualTo(buyerId);

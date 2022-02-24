@@ -19,6 +19,7 @@ import static com.machines.vending.utils.TestAmounts.TEN;
 import static com.machines.vending.utils.TestAmounts.THREE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -45,8 +46,10 @@ class AddToDepositCommandImplTest {
         // given
         final Deposit deposit = Deposit.builder().id(id).buyerId(buyerId).amount(FIVE).build();
         final DepositEntity storedDeposit = DepositEntity.builder().id(id).buyerId(buyerId).amount(FIVE).build();
+        final DepositEntity updateDeposit = DepositEntity.builder().id(id).buyerId(buyerId).amount(TEN).build();
 
         when(depositRepository.findByBuyerId(buyerId)).thenReturn(Optional.of(storedDeposit));
+        when(depositRepository.save(any())).thenReturn(updateDeposit);
 
         // when
         addDepositCommand.add(FIVE).to(deposit);
