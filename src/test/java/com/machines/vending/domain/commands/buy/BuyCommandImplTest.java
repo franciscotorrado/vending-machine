@@ -48,8 +48,10 @@ class BuyCommandImplTest {
     @Test
     void shouldBuyProduct() throws NotEnoughDepositException, ProductNotFoundException, NotEnoughProductAmountAvailableException {
         // given
+        final Product product = Product.builder().id(productId).cost(TWENTY).amountAvailable(10).build();
+        when(readProductCommand.execute(any())).thenReturn(product);
         doAnswer(invocation -> null).when(fromDepositCommand).from(any());
-        doAnswer(invocation -> fromDepositCommand).when(withdrawFromDepositCommand).withdraw(amountToBuy);
+        doAnswer(invocation -> fromDepositCommand).when(withdrawFromDepositCommand).withdraw(amountToBuy*product.getCost());
 
         doAnswer(invocation -> null).when(reduceProductAmountAvailableCommand).execute(productId, amountToBuy);
 
@@ -73,7 +75,7 @@ class BuyCommandImplTest {
         final Product product = Product.builder().id(productId).cost(TWENTY).amountAvailable(10).build();
         when(readProductCommand.execute(any())).thenReturn(product);
         doThrow(NotEnoughDepositException.class).when(fromDepositCommand).from(any());
-        doAnswer(invocation -> fromDepositCommand).when(withdrawFromDepositCommand).withdraw(amountToBuy);
+        doAnswer(invocation -> fromDepositCommand).when(withdrawFromDepositCommand).withdraw(amountToBuy*product.getCost());
 
         buyCommand = new BuyCommandImpl(withdrawFromDepositCommand, reduceProductAmountAvailableCommand, readProductCommand);
 
@@ -90,7 +92,7 @@ class BuyCommandImplTest {
         final Product product = Product.builder().id(productId).cost(TWENTY).amountAvailable(0).build();
         when(readProductCommand.execute(any())).thenReturn(product);
         doAnswer(invocation -> null).when(fromDepositCommand).from(any());
-        doAnswer(invocation -> fromDepositCommand).when(withdrawFromDepositCommand).withdraw(amountToBuy);
+        doAnswer(invocation -> fromDepositCommand).when(withdrawFromDepositCommand).withdraw(amountToBuy*product.getCost());
 
         doThrow(NotEnoughProductAmountAvailableException.class).when(reduceProductAmountAvailableCommand).execute(productId, amountToBuy);
 
