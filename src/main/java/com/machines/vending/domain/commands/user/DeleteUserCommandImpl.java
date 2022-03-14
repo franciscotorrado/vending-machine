@@ -5,6 +5,7 @@ import com.machines.vending.domain.exceptions.PositiveDepositAvailableException;
 import com.machines.vending.domain.models.Deposit;
 import com.machines.vending.domain.models.User;
 import com.machines.vending.infrastructure.persistence.repositories.UserRepository;
+import com.machines.vending.infrastructure.session.TokenServer;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,5 +25,6 @@ public class DeleteUserCommandImpl implements DeleteUserCommand {
             throw new PositiveDepositAvailableException();
         }
         userRepository.deleteByIdAndUsernameAndPassword(user.getId(), user.getUsername(), user.getPassword());
+        TokenServer.removeToken(user.getId());
     }
 }
